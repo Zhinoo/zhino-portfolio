@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Şîn UX Agency — Visual System Case Study</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================
+           1. DESIGN SYSTEM (VARIABLES)
+           (Keep all your :root variables here for consistency)
+           ========================================================== 
+        */
+        :root{
+            --bg: #05040a;             
+            --card: rgba(255, 255, 255, 0.05); 
+            --muted: #bfc6d1;          
+            --text-light: #eef2ff;     
+            --text-dark: #08102a;
+            --accent-purple: #7F5BFF;    
+            --accent-cyan: #00D1FF;      
+            --accent-pink: #FF8AE2;      
+            
+            --radius-default: 16px;
+            --radius-large: 20px;
+            --radius-pill: 999px;
+            --container: 1200px;
+        }
+
+        /* ==========================================================
+           2. BASE STYLES & LAYOUT
+           (Copy all common styles, including the fixed header setup)
+           ========================================================== 
+        */
+        *, *::before, *::after {box-sizing: border-box;}
+        html, body{height: 100%;}
+        body{
+            margin: 0; 
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(180deg, var(--bg), #090513); 
+            color: var(--text-light); 
+            line-height: 1.6;
+        }
+        a{color: inherit; text-decoration: none;}
+        img{display: block; max-width: 100%;}
+        h1, h2, h3, h4 {margin: 0; font-weight: 800; color: var(--text-light);}
+        
+        .bg-anim{ /* Background */
+            position: fixed; inset: 0; z-index: -5; pointer-events: none;
+            background: radial-gradient(600px 600px at 10% 10%, var(--accent-cyan) 0.08, transparent 8%),
+                        radial-gradient(600px 600px at 90% 90%, var(--accent-purple) 0.06, transparent 10%),
+                        var(--bg); 
+            filter: blur(14px);
+            animation: bgFloat 14s linear infinite alternate;
+        }
+        @keyframes bgFloat { from { transform: translateY(0) } to { transform: translateY(-30px) } }
+
+        /* HEADER FIX */
+        header.site{
+            position: fixed; 
+            top: 18px;       
+            left: 0;         
+            right: 0;        
+            z-index: 60;     
+        }
+        .nav{
+            max-width: var(--container); 
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            padding: 10px 18px; border-radius: 14px;
+        }
+        .nav-name{font-weight: 800; font-size: 18px; color: var(--accent-cyan);}
+        .nav-role{font-size: 12px; color: var(--muted);}
+        nav.menu a{padding: 8px 10px; border-radius: 8px; color: var(--muted); font-weight: 600;}
+        nav.menu a:hover{color: var(--accent-cyan); background: rgba(0, 209, 255, 0.08);}
+        
+        /* CONTENT WRAPPER FIX */
+        .wrap{
+            max-width: 1000px; /* Adjusted size for detail page focus */
+            margin: 0 auto; 
+            padding: 0 28px;
+            margin-top: 100px; /* Space for the fixed header */
+        }
+        .section-inner{ max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+        section.full { width: 100%; padding: 80px 0; position: relative; }
+        .text-center { text-align: center; }
+        
+        /* Other Common Styles (Buttons, etc.) - Include them here */
+        .btn{ /* Button styles */
+            display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; 
+            border-radius: var(--radius-pill); font-weight: 700; cursor: pointer;
+            border: 0; transition: all .2s ease;
+        }
+        .btn.primary{ 
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); 
+            color: var(--text-dark); 
+            box-shadow: 0 12px 30px rgba(0, 209, 255, 0.25);
+        }
+        .btn.ghost{ 
+            background: rgba(255,255,255,0.08); 
+            border: 1px solid rgba(255,255,255,0.15); 
+            color: var(--accent-cyan); 
+            backdrop-filter: blur(8px);
+        }
+        .btn:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0, 209, 255, 0.4); }
+
+        /* CONTACT FORM STYLES (Copied from index.html) */
+        .contact-grid{ display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; margin-top: 30px; }
+        .contact-card{ 
+            background: rgba(255, 255, 255, 0.05);
+            padding: 24px; border-radius: var(--radius-large); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 0 30px rgba(0,0,0,0.4); 
+            backdrop-filter: blur(10px);
+        }
+        .contact-card label{ display: block; font-weight: 700; margin-bottom: 8px; color: var(--accent-purple); }
+        .contact-card input, .contact-card textarea{ 
+            width: 100%; padding: 12px; border-radius: 8px; 
+            border: 1px solid rgba(255,255,255,0.15); 
+            background: rgba(0,0,0,0.3); margin-bottom: 12px;
+            color: var(--text-light);
+        }
+        .contact-card input:focus, .contact-card textarea:focus{ 
+            border-color: var(--accent-cyan); outline: none; 
+            box-shadow: 0 0 8px var(--accent-cyan) 0.5;
+        }
+        .phone { font-family: 'Anonymous Pro', monospace; color: var(--accent-cyan); font-weight: 700; }
+        footer{ padding: 40px 0; margin-top: 40px; }
+        .footer-content {
+            max-width: var(--container); margin: 0 auto; padding: 0 28px; 
+            display: flex; align-items: center; justify-content: space-between; 
+            gap: 16px; flex-wrap: wrap;
+            font-size: 14px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-content > div:first-child{ color: var(--accent-cyan); font-weight: 700; }
+
+
+        /* ==========================================================
+           3. PROJECT DETAIL SPECIFIC STYLES
+           (Styles for the unique content of this page)
+           ========================================================== 
+        */
+        .back-link {
+            display: inline-block;
+            margin: 0 0 20px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent-purple); }
+
+        .project-hero {
+            padding: 0 0 50px; /* Reduced top padding since it starts right after the header margin */
+        }
+        .project-hero h1 {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        .project-hero p.meta {
+            color: var(--accent-pink);
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+        .main-image-container {
+            width: 100%;
+            background: rgba(127, 91, 255, 0.05); 
+            border-radius: var(--radius-large);
+            padding: 10px;
+            margin-bottom: 50px;
+            box-shadow: 0 0 40px rgba(127, 91, 255, 0.2);
+            overflow: hidden;
+        }
+        .main-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: calc(var(--radius-large) - 5px);
+        }
+        .detail-section {
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .detail-section h2 {
+            font-size: 32px;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+        }
+        .detail-section p, .detail-section ul {
+            color: var(--muted);
+            font-size: 17px;
+            max-width: 750px;
+        }
+        .detail-section ul {
+            padding-left: 20px;
+        }
+        .detail-section strong {
+            color: var(--text-light);
+        }
+        .detail-section img {
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 980px){
+            .contact-grid{ grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-anim" aria-hidden="true"></div>
+
+    <header class="site" role="banner">
+        <div class="nav">
+            <div class="nav-left">
+                <a href="index.html" aria-label="Go to homepage"> </a>
+                <div style="display:flex; flex-direction:column; line-height:1">
+                    <div class="nav-name">Zhino Salam</div> <br>
+                    <div class="nav-role">UI/UX Design Engineer</div>
+                </div>
+            </div>
+
+            <nav class="menu" aria-label="Main menu">
+                <a href="index.html#home">Home</a>
+                <a href="index.html#what">What I Do</a>
+                <a href="index.html#work">Work</a>
+                <a href="index.html#skills">Tools</a>
+                <a href="#contact">Contact</a> </nav>
+        </div>
+    </header>
+
+    <div class="wrap" role="main">
+        
+        <div class="project-hero">
+            <a href="index.html#work" class="back-link">← Back to Portfolio</a>
+            <h1>Şîn UX Agency — Visual System</h1>
+            <p class="meta">Role: Lead UI/UX Designer | Project Type: Branding & Website Redesign | Duration: 6 Weeks</p>
+        </div>
+        
+        <div class="main-image-container">
+            <img src="https://picsum.photos/1000/600?random=7" alt="Şîn UX Agency main website interface preview">
+        </div>
+        
+        <div class="detail-section">
+            <h2>1. Overview & Challenge</h2>
+            <p>The primary challenge was to create a visual identity for "Şîn UX Agency" that felt both **professional and cutting-edge**, moving away from standard corporate blues. We needed to establish a visual language that highlighted clarity, modern aesthetics, and the use of clean, dark interfaces, leveraging the client's preferred neon aesthetic.</p>
+            <p>Our goal was to **increase client conversions by 30%** by communicating trust and innovation through design.</p>
+        </div>
+
+        <div class="detail-section">
+            <h2>2. Design Process & Solution</h2>
+            <p>The solution centered on a **Dark Glassmorphism** system combined with soft neon accents (Cyan and Purple) for interactive elements. This approach established visual hierarchy and depth.</p>
+            
+            <h3>Key Features Implemented:</h3>
+            <ul>
+                <li>**Neon Accent Color Palette:** Defined a strict palette to ensure accessibility and consistent branding across all digital touchpoints.</li>
+                <li>**Modular Component Library:** Built a Figma library with reusable components for quick iteration.</li>
+                <li>**Typographic Hierarchy:** Used **Inter** for body text (for readability) and **Anonymous Pro** for code samples and technical details.</li>
+            </ul>
+            <img src="https://picsum.photos/800/500?random=10" alt="Wireframe and prototyping example">
+        </div>
+        <section id="contact" class="full">
+            <div class="section-inner">
+                <h2 class="text-center" style="color:var(--accent-purple); margin-bottom:8px">Start your project</h2>
+                <p class="text-center" style="color:var(--muted); margin-bottom:18px">Send a short brief or book time — I usually respond within 24–48h</p>
+
+                <div class="contact-grid">
+                    <form class="contact-card" id="contactForm" onsubmit="return false;">
+                        <label for="cname">Your name</label>
+                        <input id="cname" type="text" placeholder="Name" required>
+
+                        <label for="cemail">Email</label>
+                        <input id="cemail" type="email" placeholder="you@example.com" required>
+
+                        <label for="cmsg">Project brief</label>
+                        <textarea id="cmsg" placeholder="Short description (optional)"></textarea>
+
+                        <div style="display:flex; gap:12px; margin-top:8px;">
+                            <button class="btn primary" id="sendBtn" type="button">Send message</button>
+                            <button class="btn ghost" id="attachBtn" type="button">Attach file</button>
+                        </div>
+                    </form>
+
+                    <aside>
+                        <div class="contact-card">
+                            <strong>Availability</strong>
+                            <p style="color:var(--muted)">Open for freelance & remote work — usually reply within 24–48h.</p>
+                        </div>
+
+                        <div class="contact-card" style="margin-top:16px">
+                            <strong>Contact</strong>
+                            <p style="color:var(--muted)"><span class="phone">📞 +964 750 536 1079</span></p>
+                            <p style="color:var(--muted)">📍 Erbil, Kurdistan</p>
+                            <p style="margin-top:8px"><a href="mailto:shinuiux@outlook.com">shinuiux@outlook.com</a></p>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+        
+    </div> <footer>
+        <div class="footer-content">
+            <div>Zhino Salam</div>
+            <div style="color:var(--muted)">© 2025 • UI/UX Design Engineer</div>
+            <div style="color:var(--muted)"><span class="phone">📞 +964 750 536 1079</span> · 📍 Erbil, Kurdistan</div>
+        </div>
+    </footer>
+
+    <script>
+        // Note: I removed the fade-up animations since they require the full Observer logic 
+        // and are less critical on a static case study page, focusing on necessary logic.
+
+        // Contact form submission (demo logic)
+        document.getElementById('sendBtn').addEventListener('click', function(){
+            const nameInput = document.getElementById('cname');
+            const emailInput = document.getElementById('cemail');
+            
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            
+            if(!name || !email || !emailInput.checkValidity()){ 
+                alert('Please enter a valid name and email.'); 
+                return; 
+            }
+            
+            alert('Thanks ' + name + '! Your message was sent. I will contact you soon.');
+            document.getElementById('contactForm').reset();
+        });
+
+        // Attach file button (demo alert)
+        document.getElementById('attachBtn').addEventListener('click', function(e){
+            e.preventDefault();
+            alert('Attach feature not enabled in demo. You can add file upload when connecting to backend.');
+        });
+    </script>
+</body>
+</html>

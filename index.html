@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Zhino Salam — UI/UX Designer</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ======================================================================
+           1. DESIGN SYSTEM (VARIABLES) - DARK NEON THEME
+           ====================================================================== */
+        :root{
+            /* Base Colors */
+            --bg: #05040a;             
+            --card: rgba(255, 255, 255, 0.05); 
+            --muted: #bfc6d1;          
+            --text-light: #eef2ff;     
+            --text-dark: #08102a;      
+
+            /* NEON ACCENTS */
+            --accent-purple: #7F5BFF;    
+            --accent-cyan: #00D1FF;      
+            --accent-pink: #FF8AE2;      
+            
+            --radius-default: 16px;
+            --radius-large: 20px;
+            --radius-pill: 999px;
+            --container: 1200px;
+        }
+
+        /* ======================================================================
+           2. BASE STYLES & TYPOGRAPHY
+           ====================================================================== */
+        
+        /* Reset */
+        *, *::before, *::after {box-sizing: border-box;}
+        html, body{height: 100%;}
+        body{
+            margin: 0; 
+            font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(180deg, var(--bg), #090513); 
+            color: var(--text-light); 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.5;
+        }
+        /* ADDED TRANSITION TO ALL LINKS FOR SMOOTH HOVER */
+        a{color: inherit; text-decoration: none; transition: color .2s ease;} 
+        img{display: block; max-width: 100%;}
+        h1, h2, h3, h4 {margin: 0; font-weight: 800; color: var(--text-light);}
+
+        /* Animated Background */
+        .bg-anim{
+            position: fixed; inset: 0; z-index: -5; pointer-events: none;
+            background: radial-gradient(600px 600px at 10% 10%, var(--accent-cyan) 0.08, transparent 8%),
+                        radial-gradient(600px 600px at 90% 90%, var(--accent-purple) 0.06, transparent 10%),
+                        var(--bg); 
+            filter: blur(14px);
+            animation: bgFloat 14s linear infinite alternate;
+        }
+        @keyframes bgFloat { from { transform: translateY(0) } to { transform: translateY(-30px) } }
+
+        /* General Layout */
+        .wrap{
+            max-width: var(--container); 
+            margin: 0 auto; 
+            padding: 0 28px;
+            /* FIX: Add top margin to account for the fixed header */
+            margin-top: 100px; 
+        }
+        .section-inner{ max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+        section.full { width: 100%; padding: 80px 0; position: relative; }
+        .text-center { text-align: center; }
+
+        /* Fade Animation */
+        .fade-up{ opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+        .is-visible{ opacity: 1; transform: none; }
+
+        /* --- 3. Buttons --- */
+        .btn{
+            display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; 
+            border-radius: var(--radius-pill); font-weight: 700; cursor: pointer;
+            border: 0; transition: all .2s ease;
+        }
+        .btn.primary{ 
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); 
+            color: var(--text-dark); 
+            box-shadow: 0 12px 30px rgba(0, 209, 255, 0.25);
+        }
+        .btn.ghost{ 
+            background: rgba(255,255,255,0.08); 
+            border: 1px solid rgba(255,255,255,0.15); 
+            color: var(--accent-cyan); 
+            backdrop-filter: blur(8px);
+        }
+        .btn:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0, 209, 255, 0.4); }
+
+        /* --- 4. Header / Navigation (CHANGED TO FIXED) --- */
+        header.site{
+            position: fixed; /* CHANGED FROM sticky TO FIXED */
+            top: 18px;       
+            left: 0;         /* Ensures it spans viewport width */
+            right: 0;        /* Ensures it spans viewport width */
+            z-index: 60;     
+        }
+        .nav{
+            max-width: var(--container); /* Constrain the nav content */
+            margin: 0 auto; /* Center the nav bar within the fixed header */
+            
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            padding: 10px 18px; border-radius: 14px;
+        }
+        .nav-name{font-weight: 800; font-size: 18px; color: var(--accent-cyan);}
+        .nav-role{font-size: 12px; color: var(--muted);}
+        
+        nav.menu a{padding: 8px 10px; border-radius: 8px; color: var(--muted); font-weight: 600;}
+        nav.menu a:hover{color: var(--accent-cyan); background: rgba(0, 209, 255, 0.08);}
+
+        /* --- 5. Hero Section --- */
+        .hero{
+            display: grid; 
+            grid-template-columns: 1fr 420px; 
+            gap: 34px; 
+            align-items: center; 
+            /* Removed padding-top here as the margin on .wrap handles the spacing */
+            padding: 48px 0; 
+        }
+        .eyebrow{
+            display: inline-block; font-weight: 700; color: var(--accent-pink); 
+            background: var(--accent-pink) 0.08; padding: 6px 12px; border-radius: var(--radius-pill);
+        }
+        h1.title{font-size: 48px; line-height: 1.05; margin: 18px 0 20px; font-weight: 900; text-shadow: 0 0 10px rgba(255,255,255,0.1);}
+        p.lead{color: var(--muted); font-size: 18px; max-width: 60ch;}
+        .cta-row{display: flex; gap: 12px; margin-top: 24px; align-items: center;}
+        
+        /* Profile Image */
+        .profile{
+            width: 420px; height: 420px; border-radius: var(--radius-pill); overflow: hidden; 
+            background: rgba(255,255,255,0.05);
+            border: 6px solid var(--accent-cyan) 0.2;
+            box-shadow: 0 0 60px var(--accent-cyan) 0.2;
+        }
+        
+        /* Contact Info */
+        .contact-inline{ margin-top: 20px; display: flex; gap: 20px; align-items: center; color: var(--muted); font-weight: 600; }
+        .phone { font-family: 'Anonymous Pro', monospace; color: var(--accent-cyan); font-weight: 700; }
+
+
+        /* ======================================================================
+           6. WHAT I CAN DO - VERTICAL CARDS WITH LARGE IMAGE
+           ====================================================================== */
+        .services { padding: 80px 0; text-align: center; } 
+        .services h2 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px rgba(0, 209, 255, 0.6);
+        }
+        .services h2 + p { color: var(--muted); margin-bottom: 30px; font-size: 16px; }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 28px;
+            max-width: var(--container); 
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .svc {
+            padding: 0; 
+            border-radius: var(--radius-large);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column; 
+            transition: .3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+        }
+
+        .svc:hover {
+            transform: translateY(-8px);
+            box-shadow:0 0 50px rgba(127, 91, 255, 0.35);
+            border-color: var(--accent-purple);
+        }
+
+        .neon-box {
+            width: 100%; 
+            height: 220px; 
+            border-radius: var(--radius-large) var(--radius-large) 0 0; 
+            background: var(--accent-purple) 0.1;
+            box-shadow: inset 0 0 10px var(--accent-purple),
+                        0 4px 10px rgba(0, 0, 0, 0.5); 
+            flex-shrink: 0;
+            overflow: hidden;
+            display: block;
+        }
+
+        .neon-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            border-radius: 0; 
+            transition: transform 0.4s ease;
+        }
+        
+        .svc:hover .neon-box img {
+            transform: scale(1.05); 
+        }
+        
+        .svc-content {
+            padding: 20px 24px 24px;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .svc h4 { 
+            margin: 0 0 8px;
+            color: var(--accent-cyan);
+            font-size: 20px;
+            font-weight: 800;
+        }
+        .svc p { 
+            margin: 0; 
+            color: var(--muted); 
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* ======================================================================
+           7. Tools Ticker (Updated to have larger icons)
+           ====================================================================== */
+        #skills {
+            background: #090513; /* A slightly lighter background than --bg for contrast */
+            padding: 100px 0;
+        }
+        
+        .ticker-wrap{ 
+            overflow: hidden;
+            padding: 16px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            
+            /* Glow Animation */
+            box-shadow: 0 0 20px rgba(0,209,255,0.25);
+            animation: glow 3s ease-in-out infinite alternate;
+            
+            backdrop-filter: blur(6px);
+            margin-top: 40px;
+        }
+        .ticker{ 
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            width: max-content;
+            animation: scroll 22s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-60%); }
+        }
+        
+        /* KEYFRAMES: Glow Animation for the Ticker Wrap */
+        @keyframes glow{
+            0%{ box-shadow: 0 0 12px rgba(0,209,255,0.2); }
+            100%{ box-shadow: 0 0 28px rgba(127,91,255,0.45); }
+        }
+
+        /* Tool Pill Styling */
+        .tool-pill{
+            display: inline-flex;
+            align-items: center;
+            gap: 12px; /* Increased gap */
+            padding: 10px 16px; /* Adjusted padding */
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light); 
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* This targets the logo inside the pill - INCREASED SIZE HERE */
+        .tool-pill img{
+            height: 36px; 
+            width: 36px;
+            object-fit: contain;
+            filter: none; 
+        }
+
+        
+        /* --- 8. Work Cards --- */
+        .works-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 30px; }
+        /* Adjusted work-card styling for better clickability */
+        .work-card{ 
+            background: var(--card); padding: 0; border-radius: var(--radius-large); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
+            transition: transform .2s ease, box-shadow .2s ease;
+            backdrop-filter: blur(8px);
+        }
+        .work-card a { /* Ensure the entire card link is a block */
+            display: block;
+            padding: 16px;
+            border-radius: var(--radius-large);
+        }
+        .work-card:hover{ 
+            transform: translateY(-8px); 
+            box-shadow: 0 0 40px var(--accent-cyan) 0.15;
+            border-color: var(--accent-cyan);
+        }
+        .work-card img{ width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; }
+        .work-card h3{ font-size: 18px; color: var(--accent-cyan); }
+        .work-card p{ color: var(--muted); margin-top: 4px; } 
+
+        /* --- 9. Social Links --- */
+        .social-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-large);
+            padding: 30px;
+            max-width: 600px;
+            margin: 40px auto 0;
+            box-shadow: 0 0 30px var(--accent-purple) 0.15;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .social-card h3 { 
+            color: var(--accent-purple); 
+            font-size: 24px; 
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(127, 91, 255, 0.5);
+        }
+        .social-row { 
+            display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap;
+        }
+        .social-btn {
+            padding: 12px 18px; 
+            border-radius: var(--radius-pill);
+            background: var(--bg); 
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text-light);
+            font-weight: 700;
+            transition: all .2s ease;
+        }
+        .social-btn:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            background: var(--accent-cyan) 0.05;
+            transform: translateY(-2px);
+            text-shadow: 0 0 8px rgba(0, 209, 255, 0.5);
+        }
+
+        /* --- 10. Contact Form --- */
+        .contact-grid{ display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; margin-top: 30px; }
+        .contact-card{ 
+            background: rgba(255, 255, 255, 0.05);
+            padding: 24px; border-radius: var(--radius-large); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 0 30px rgba(0,0,0,0.4); 
+            backdrop-filter: blur(10px);
+        }
+        .contact-card label{ display: block; font-weight: 700; margin-bottom: 8px; color: var(--accent-purple); }
+        .contact-card input, .contact-card textarea{ 
+            width: 100%; padding: 12px; border-radius: 8px; 
+            border: 1px solid rgba(255,255,255,0.15); 
+            background: rgba(0,0,0,0.3); margin-bottom: 12px;
+            color: var(--text-light);
+            transition: border-color .2s ease;
+        }
+        .contact-card input:focus, .contact-card textarea:focus{ 
+            border-color: var(--accent-cyan); outline: none; 
+            box-shadow: 0 0 8px var(--accent-cyan) 0.5;
+        }
+        
+        /* --- 11. Footer (New Neon Contact Bar Style) --- */
+        footer{ 
+            padding: 30px 0; 
+            margin-top: 80px; /* More space above the footer */
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: #06040e; /* Slightly darker than main background */
+        }
+        .neon-footer {
+            max-width: var(--container); 
+            margin: 0 auto; 
+            padding: 0 28px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center;
+            gap: 20px;
+        }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+        .footer-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: var(--radius-pill);
+            background: rgba(127, 91, 255, 0.05); /* Soft purple background */
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple);
+            font-weight: 700;
+            font-size: 15px;
+            transition: all .3s ease;
+            box-shadow: 0 0 10px rgba(127, 91, 255, 0.15); /* Subtle purple glow */
+        }
+        .footer-pill:hover {
+            background: rgba(127, 91, 255, 0.15);
+            color: var(--text-light);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(127, 91, 255, 0.4);
+        }
+        .copyright {
+            color: var(--muted);
+            font-size: 14px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            width: 100%;
+        }
+
+        /* --- 12. Responsive Adjustments --- */
+        @media (max-width: 980px){
+            .hero{ grid-template-columns: 1fr; text-align: center; }
+            .profile{ width: 320px; height: 320px; margin: 0 auto; }
+            .services-grid{ grid-template-columns: repeat(2, 1fr); }
+            .contact-grid{ grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px){
+            .wrap{ margin-top: 80px; } /* Adjust wrapper margin for smaller screens */
+            .hero h1.title{ font-size: 38px; }
+            .services h2{ font-size: 36px; }
+            .services-grid{ grid-template-columns: 1fr; }
+            .contact-inline { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-anim" aria-hidden="true"></div>
+
+    <div class="wrap" role="main">
+        </div>
+
+    <header class="site" role="banner">
+        <div class="nav">
+            <div class="nav-left">
+                <div style="display:flex; flex-direction:column; line-height:1">
+                    <div class="nav-name">Zhino Salam</div> <br>
+                    <div class="nav-role">UI/UX Design Engineer</div>
+                </div>
+            </div>
+
+            <nav class="menu" aria-label="Main menu">
+                <a href="#home">Home</a>
+                <a href="#what">What I Do</a>
+                <a href="#work">Work</a>
+                <a href="#skills">Tools</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="wrap" role="main">
+
+        <section id="home" class="hero" aria-labelledby="heroHeading">
+            <div class="fade-up">
+                <div class="eyebrow">UI/UX Designer </div>
+                <h1 id="heroHeading" class="title">I design bright, modern digital experiences</h1>
+                <p class="lead">Hi I'm Zhino. I create websites, apps, game UI, branding, and marketing visuals with clarity, style, and a soft neon touch.</p>
+
+                <div class="contact-inline">
+                    <div class="phone">📞 <span class="phone-number">+964 750 536 1079 </span></div>
+                    <div class="location">📍 Erbil, Kurdistan</div>
+                </div>
+
+                <div class="cta-row">
+                    <button class="btn primary" id="copyEmail">Copy My Email</button>
+                    <a class="btn ghost" href="#work">View Portfolio</a>
+                </div>
+            </div>
+
+            <div class="profile fade-up" id="profileFrame" style="transition-delay: 0.1s;">
+                <img src="images/zhino.png" alt="Zhino profile photo">
+            </div>
+        </section>
+
+
+        <section id="what" class="services full">
+            <h2 class="fade-up">What I Can Do</h2>
+            <p class="fade-up" style="transition-delay: 0.1s;">Services I offer — focused, design-driven, and highly polished.</p>
+            
+            <div class="services-grid fade-up" style="transition-delay: 0.2s;">
+                <div class="svc">
+                    <div class="neon-box">
+                        <img src="https://picsum.photos/600/440?random=1" alt="UI/UX Design Preview">
+                    </div>
+                    <div class="svc-content">
+                        <h4>UI/UX Design</h4>
+                        <p>Modern, smooth and clean user interface design with strong usability and soft neon accents. **Click to view recent UI case studies.**</p>
+                    </div>
+                </div>
+
+                <div class="svc">
+                    <div class="neon-box">
+                        <img src="https://picsum.photos/600/440?random=2" alt="Web Design Preview">
+                    </div>
+                    <div class="svc-content">
+                        <h4>Web Design</h4>
+                        <p>Landing pages, business websites, portfolios — beautiful and responsive. **See my Webflow & responsive design samples.**</p>
+                    </div>
+                </div>
+
+                <div class="svc">
+                    <div class="neon-box">
+                        <img src="https://picsum.photos/600/440?random=3" alt="App Design Preview">
+                    </div>
+                    <div class="svc-content">
+                        <h4>App Design</h4>
+                        <p>Mobile app interfaces with smooth workflows and clean aesthetic. **Includes iOS, Android, and cross-platform designs.**</p>
+                    </div>
+                </div>
+
+                <div class="svc">
+                    <div class="neon-box">
+                        <img src="https://picsum.photos/600/440?random=4" alt="Branding Design Preview">
+                    </div>
+                    <div class="svc-content">
+                        <h4>Branding</h4>
+                        <p>Logos, colors, typography — visual identity that matches your style. **Full brand guideline documentation available.**</p>
+                    </div>
+                </div>
+
+                <div class="svc">
+                    <div class="neon-box">
+                        <img src="https://picsum.photos/600/440?random=5" alt="Game UI Design Preview">
+                    </div>
+                    <div class="svc-content">
+                        <h4>Game UI</h4>
+                        <p>HUD, menus and in‑game UI built with clarity for players. **See my dark mode and futuristic game interfaces.**</p>
+                    </div>
+                </div>
+
+                <div class="svc">
+                    <div class="neon-box">
+                        <img src="https://picsum.photos/600/440?random=6" alt="Icons & Visuals Preview">
+                    </div>
+                    <div class="svc-content">
+                        <h4>Icons & Visuals</h4>
+                        <p>Custom icons, banners and marketing visuals for websites and apps. **Professional graphics optimized for conversion.**</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="full">
+            <div class="section-inner">
+                <h2 class="text-center fade-up" style="color:var(--accent-purple); margin-bottom:8px">Tools I Use</h2>
+                <p class="text-center" style="color:var(--muted); margin-bottom:18px">Common tools I work with — quick view</p>
+
+                <div class="ticker-wrap">
+                    <div class="ticker">
+
+                        <span class="tool-pill">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma"> Figma
+                        </span>
+
+                        <span class="tool-pill">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"> Photoshop
+                        </span>
+
+                        <span class="tool-pill">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/illustrator/illustrator-original.svg" alt="Illustrator"> Illustrator
+                        </span>
+                        
+                        <span class="tool-pill">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/affinitydesigner/affinitydesigner-original.svg" alt="Affinity"> Affinity
+                        </span>
+                        
+
+                        <span class="tool-pill">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/canva/canva-original.svg" alt="Canva"> Canva
+                        </span>
+
+                        
+                        <span class="tool-pill">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma"> Figma
+                        </span>
+
+                        <span class="tool-pill">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"> Photoshop
+                        </span>
+                        
+                        <span class="tool-pill">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/illustrator/illustrator-original.svg" alt="Illustrator"> Illustrator
+                        </span>
+                         <span class="tool-pill">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/affinitydesigner/affinitydesigner-original.svg" alt="Affinity"> Affinity
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="full">
+            <div class="section-inner">
+                <h2 class="text-center fade-up" style="color:var(--accent-pink); margin-bottom:10px">Selected Projects</h2>
+                <p class="text-center" style="color:var(--muted); margin-bottom:30px">A few highlights — click to open case studies</p>
+
+                <div class="works-grid fade-up">
+                    
+                    <div class="work-card">
+                        <a href="project-detail-1.html"> <img src="https://picsum.photos/600/400?random=7" alt="Work 1 (Şîn UX Agency)">
+                            <h3>Şîn UX Agency — Visual System</h3>
+                            <p>Brand + website focused on conversions.</p>
+                        </a>
+                    </div>
+
+                    <div class="work-card">
+                        <a href="project-detail.html"> <img src="https://picsum.photos/600/400?random=8" alt="Work 2 (Ari Gaming Icon Pack)">
+                            <h3>Ari Gaming — Icon Pack</h3>
+                            <p>Custom icon system and banners.</p>
+                        </a>
+                    </div>
+
+                    <div class="work-card">
+                        <a href="project-detail-3.html"> <img src="https://picsum.photos/600/400?random=9" alt="Work 3 (Kurdistan Animal Sanctuary)">
+                            <h3>Kurdistan Animal Sanctuary</h3>
+                            <p>Branding and UI for adoption platform.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="full">
+            <div class="section-inner">
+                <h2 class="text-center fade-up" style="color:var(--accent-cyan); margin-bottom:8px">Find me online</h2>
+                <p class="text-center" style="color:var(--muted);">Connect with me across platforms.</p>
+
+                <div class="social-card fade-up">
+                    <h3>Let's collaborate on your next idea.</h3>
+                    <p>Follow my work and see the latest designs, case studies, and creative experiments.</p>
+                    <div class="social-row">
+                        <a class="social-btn" href="https://www.behance.net/" target="_blank">🎨 Behance</a>
+                        <a class="social-btn" href="https://www.linkedin.com/" target="_blank">💼 LinkedIn</a>
+                        <a class="social-btn" href="https://dribbble.com/" target="_blank">🏀 Dribbble</a>
+                        <a class="social-btn" href="mailto: Zhinosalam188@gmail.com">✉️ Email</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="full">
+            <div class="section-inner">
+                <h2 class="text-center fade-up" style="color:var(--accent-purple); margin-bottom:8px">Start your project</h2>
+                <p class="text-center" style="color:var(--muted); margin-bottom:18px">Send a short brief or book time — I usually respond within 24–48h</p>
+
+                <div class="contact-grid fade-up">
+                    <form class="contact-card" id="contactForm" onsubmit="return false;">
+                        <label for="cname">Your name</label>
+                        <input id="cname" type="text" placeholder="Name" required>
+
+                        <label for="cemail">Email</label>
+                        <input id="cemail" type="email" placeholder="you@example.com" required>
+
+                        <label for="cmsg">Project brief</label>
+                        <textarea id="cmsg" placeholder="Short description (optional)"></textarea>
+
+                        <div style="display:flex; gap:12px; margin-top:8px;">
+                            <button class="btn primary" id="sendBtn" type="button">Send message</button>
+                            <button class="btn ghost" id="attachBtn" type="button">Attach file</button>
+                        </div>
+                    </form>
+
+                    <aside>
+                        <div class="contact-card">
+                            <strong>Availability</strong>
+                            <p style="color:var(--muted)">Open for freelance & remote work — usually reply within 24–48h.</p>
+                        </div>
+
+                        <div class="contact-card" style="margin-top:16px">
+                            <strong>Contact</strong>
+                            <p style="color:var(--muted)"><span class="phone">📞 +964 750 536 1079</span></p>
+                            <p style="color:var(--muted)">📍 Erbil, Kurdistan</p>
+                            <p style="margin-top:8px"><a href="mailto:Zhinosalam188@gmail.com">Zhinosalam188@gmail.com</a></p>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+    </div> 
+    
+    <footer>
+        <div class="neon-footer">
+            <div class="footer-links">
+                
+                <a class="footer-pill" href="mailto:Zhinosalam188@gmail.com">
+                    ✉️ Zhinosalam188@gmail.com
+                </a>
+                
+                <a class="footer-pill" href="tel:+9647505361079">
+                    📞 +964 750 536 1079
+                </a>
+                
+                <div class="footer-pill">
+                    📍 Erbil, Kurdistan
+                </div>
+
+            </div>
+            
+            <div class="copyright">
+                © 2025 • Zhino Salam — UI/UX Design Engineer
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal sections on scroll (fade-up animation)
+        (function(){
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('is-visible');
+                        obs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.fade-up').forEach(n => obs.observe(n));
+        })();
+
+        // Copy email button functionality
+        document.getElementById('copyEmail').addEventListener('click', function(){
+            const emailAddress = 'Zhinosalam188@gmail.com';
+            navigator.clipboard.writeText(emailAddress).then(function() {
+                const prev = this.textContent;
+                this.textContent = 'Copied ✓';
+                setTimeout(()=> this.textContent = prev, 1500);
+            }.bind(this));
+        });
+
+        // Contact form submission (demo logic)
+        document.getElementById('sendBtn').addEventListener('click', function(){
+            const nameInput = document.getElementById('cname');
+            const emailInput = document.getElementById('cemail');
+            
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            
+            if(!name || !email || !emailInput.checkValidity()){ 
+                alert('Please enter a valid name and email.'); 
+                return; 
+            }
+            
+            alert('Thanks ' + name + '! Your message was sent. I will contact you soon.');
+            document.getElementById('contactForm').reset();
+        });
+
+        // Attach file button (demo alert)
+        document.getElementById('attachBtn').addEventListener('click', function(e){
+            e.preventDefault();
+            alert('Attach feature not enabled in demo. You can add file upload when connecting to backend.');
+        });
+
+        // Pause ticker animation on hover
+        (function(){
+            const ticker = document.querySelector('.ticker');
+            if (ticker) {
+                const tickerWrap = ticker.parentElement;
+                tickerWrap.addEventListener('mouseenter', ()=> ticker.style.animationPlayState = 'paused');
+                tickerWrap.addEventListener('mouseleave', ()=> ticker.style.animationPlayState = 'running');
+            }
+        })();
+    </script>
+</body>
+</html>
