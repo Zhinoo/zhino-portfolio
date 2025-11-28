@@ -78,6 +78,11 @@
         .fade-up{ opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
         .is-visible{ opacity: 1; transform: none; }
 
+        /* 🔥 NEW CSS FOR STAGGERED ANIMATION 🔥 */
+        .stagger-delay > * {
+            transition-delay: var(--delay, 0s) !important;
+        }
+        
         /* --- 3. Buttons --- */
         .btn{
             display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; 
@@ -508,64 +513,65 @@
             <h2 class="fade-up">What I Can Do</h2>
             <p class="fade-up" style="transition-delay: 0.1s;">Services I offer — focused, design-driven, and highly polished.</p>
             
-            <div class="services-grid fade-up" style="transition-delay: 0.2s;">
-                <div class="svc">
+            <div class="services-grid fade-up stagger-delay"> 
+                
+                <div class="svc fade-up" style="--delay: 0.1s;">
                     <div class="neon-box">
-                        <img src="https://picsum.photos/600/440?random=1" alt="UI/UX Design Preview">
+                        <img src="images/UIUX.png" alt="UI/UX Design Preview">
                     </div>
                     <div class="svc-content">
                         <h4>UI/UX Design</h4>
-                        <p>Modern, smooth and clean user interface design with strong usability and soft neon accents. **Click to view recent UI case studies.**</p>
+                        <p>I craft **modern, data-driven user interfaces** with a focus on seamless usability, accessibility, and achieving your core business goals.</p>
                     </div>
                 </div>
 
-                <div class="svc">
+                <div class="svc fade-up" style="--delay: 0.2s;">
                     <div class="neon-box">
-                        <img src="https://picsum.photos/600/440?random=2" alt="Web Design Preview">
+                        <img src="images/web desgin.jpg" alt="Web Design Preview">
                     </div>
                     <div class="svc-content">
                         <h4>Web Design</h4>
-                        <p>Landing pages, business websites, portfolios — beautiful and responsive. **See my Webflow & responsive design samples.**</p>
+                        <p>High-converting landing pages, responsive marketing sites, and full digital platforms built to **current accessibility and mobile-first standards.**</p>
                     </div>
                 </div>
 
-                <div class="svc">
+                <div class="svc fade-up" style="--delay: 0.3s;">
                     <div class="neon-box">
-                        <img src="https://picsum.photos/600/440?random=3" alt="App Design Preview">
+                        <img src="images/app desgin.png" alt="App Design Preview">
                     </div>
                     <div class="svc-content">
                         <h4>App Design</h4>
-                        <p>Mobile app interfaces with smooth workflows and clean aesthetic. **Includes iOS, Android, and cross-platform designs.**</p>
+                        <p>Intuitive mobile and desktop applications with clean layouts, streamlined workflows, and a commitment to **cross-platform performance.**</p>
                     </div>
                 </div>
 
-                <div class="svc">
+                <div class="svc fade-up" style="--delay: 0.4s;">
                     <div class="neon-box">
-                        <img src="https://picsum.photos/600/440?random=4" alt="Branding Design Preview">
+                        <img src="images/bradning.jpeg" alt="Branding Design Preview">
                     </div>
                     <div class="svc-content">
                         <h4>Branding</h4>
-                        <p>Logos, colors, typography — visual identity that matches your style. **Full brand guideline documentation available.**</p>
+                        <p>Development of cohesive visual systems, including logos, color palettes, and typography, to establish a **distinct and professional brand identity.**</p>
                     </div>
                 </div>
 
-                <div class="svc">
+                <div class="svc fade-up" style="--delay: 0.5s;">
                     <div class="neon-box">
-                        <img src="https://picsum.photos/600/440?random=5" alt="Game UI Design Preview">
+                        <img src="images/socialmedia.png" alt="Social media and marketing Preview">
                     </div>
                     <div class="svc-content">
-                        <h4>Game UI</h4>
-                        <p>HUD, menus and in‑game UI built with clarity for players. **See my dark mode and futuristic game interfaces.**</p>
+                        <h4>Social media and marketing </h4>
+                        <p>Creation of high-impact visuals, banners, and ad creative optimized for engagement and conversion across all major **social and digital channels.**</p>
                     </div>
                 </div>
 
-                <div class="svc">
+                <div class="svc fade-up" style="--delay: 0.6s;">
                     <div class="neon-box">
-                        <img src="https://picsum.photos/600/440?random=6" alt="Icons & Visuals Preview">
+                        <img src="images/Custom.png" alt="Custom desgin preview">
                     </div>
                     <div class="svc-content">
-                        <h4>Icons & Visuals</h4>
-                        <p>Custom icons, banners and marketing visuals for websites and apps. **Professional graphics optimized for conversion.**</p>
+                        <h4>Custom desgin </h4>
+                        <p>Specialized graphic assets, including custom icon sets, illustrations, and print materials, ensuring **visual consistency across every touchpoint.**</p>
                     </div>
                 </div>
             </div>
@@ -641,7 +647,13 @@
                         </a>
                     </div>
                 </div>
-            </div>
+
+                <div class="text-center fade-up" style="margin-top: 50px;">
+                    <a href="all-work.html" class="btn primary">
+                        See All 12+ Projects
+                    </a>
+                </div>
+                </div>
         </section>
 
         <section class="full">
@@ -739,6 +751,7 @@
                 });
             }, { threshold: 0.12 });
 
+            // Apply observer to all elements with the 'fade-up' class
             document.querySelectorAll('.fade-up').forEach(n => obs.observe(n));
         })();
 
@@ -774,16 +787,6 @@
             e.preventDefault();
             alert('Attach feature not enabled in demo. You can add file upload when connecting to backend.');
         });
-
-        // Pause ticker animation on hover
-        (function(){
-            const ticker = document.querySelector('.ticker');
-            if (ticker) {
-                const tickerWrap = ticker.parentElement;
-                tickerWrap.addEventListener('mouseenter', ()=> ticker.style.animationPlayState = 'paused');
-                tickerWrap.addEventListener('mouseleave', ()=> ticker.style.animationPlayState = 'running');
-            }
-        })();
     </script>
 </body>
 </html>
