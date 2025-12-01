@@ -6,6 +6,8 @@
     <title>Zhino Salam — UI/UX Design Engineer</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         /* ======================================================================
@@ -45,7 +47,13 @@
             -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale;
             line-height: 1.5;
+            transition: overflow .3s ease; /* ADDED: Transition for scroll lock */
         }
+        /* NEW: Class applied by JS to lock scrolling when mobile menu is open */
+        body.no-scroll {
+            overflow: hidden; 
+        }
+
         /* ADDED TRANSITION TO ALL LINKS FOR SMOOTH HOVER */
         a{color: inherit; text-decoration: none; transition: color .2s ease;} 
         img{display: block; max-width: 100%;}
@@ -104,15 +112,15 @@
 
         /* --- 4. Header / Navigation (CHANGED TO FIXED) --- */
         header.site{
-            position: fixed; /* CHANGED FROM sticky TO FIXED */
+            position: fixed; 
             top: 18px;       
-            left: 0;         /* Ensures it spans viewport width */
-            right: 0;        /* Ensures it spans viewport width */
+            left: 0;         
+            right: 0;        
             z-index: 60;     
         }
         .nav{
-            max-width: var(--container); /* Constrain the nav content */
-            margin: 0 auto; /* Center the nav bar within the fixed header */
+            max-width: var(--container); 
+            margin: 0 auto; 
             
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
@@ -138,7 +146,7 @@
         }
         .eyebrow{
             display: inline-block; font-weight: 700; color: var(--accent-pink); 
-            background: var(--accent-pink) 0.08; padding: 6px 12px; border-radius: var(--radius-pill);
+            background: rgba(255, 138, 226, 0.08); padding: 6px 12px; border-radius: var(--radius-pill);
         }
         h1.title{font-size: 48px; line-height: 1.05; margin: 18px 0 20px; font-weight: 900; text-shadow: 0 0 10px rgba(255,255,255,0.1);}
         p.lead{color: var(--muted); font-size: 18px; max-width: 60ch;}
@@ -352,7 +360,6 @@
             box-shadow: 0 0 40px rgba(0, 209, 255, 0.15);
             border-color: var(--accent-cyan);
         }
-        .work-card img{ width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; }
         .work-card h3{ font-size: 18px; color: var(--accent-cyan); }
         .work-card p{ color: var(--muted); margin-top: 4px; } 
 
@@ -382,16 +389,26 @@
             border-radius: var(--radius-pill);
             background: var(--bg); 
             border: 1px solid rgba(255,255,255,0.15);
-            color: var(--text-light);
+            color: var(--text-light); /* Default text color */
             font-weight: 700;
             transition: all .2s ease;
         }
         .social-btn:hover {
-            color: var(--accent-cyan);
-            border-color: var(--accent-cyan);
-            background: rgba(0, 209, 255, 0.05);
+            color: var(--accent-pink); /* Button text turns pink on hover */
+            border-color: var(--accent-pink);
+            background: rgba(255, 138, 226, 0.05); /* Soft pink background on hover */
             transform: translateY(-2px);
-            text-shadow: 0 0 8px rgba(0, 209, 255, 0.5);
+            text-shadow: 0 0 8px rgba(255, 138, 226, 0.5); /* Pink glow on hover */
+        }
+        /* NEW: Style for Font Awesome icons inside the button */
+        .social-btn i {
+            margin-right: 6px; /* Space between icon and text */
+            font-size: 1.1em;
+            color: var(--accent-pink); /* Make icons pink by default */
+            transition: color .2s ease;
+        }
+        .social-btn:hover i {
+            color: var(--text-light); /* Icons turn white on hover for contrast */
         }
 
         /* --- 10. Contact Form --- */
@@ -468,19 +485,94 @@
             width: 100%;
         }
 
-        /* --- 12. Responsive Adjustments --- */
-        @media (max-width: 980px){
+        /* --- 12. Responsive Adjustments (MOBILE MENU STYLES) --- */
+        
+        /* 12a. Mobile Menu Button */
+        .mobile-menu-toggle {
+            display: none; /* Hidden by default */
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 70;
+            transition: color .2s ease;
+        }
+        .mobile-menu-toggle:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* 12b. Mobile Menu Overlay - **CLEANED UP** */
+        nav.menu.mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* IMPORTANT: Use 100vh to ensure it covers the entire viewport */
+            /* IMPORTANT: Change background to a solid color to prevent background content bleeding */
+            background: var(--bg); /* Using the darkest background variable */
+            /* backdrop-filter: blur(20px); -- Removed blur for cleaner look */
+            z-index: 65;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            
+            /* Initial state: Hidden off-screen */
+            transform: translateX(100%); 
+            transition: transform 0.4s ease-in-out;
+            
+            display: flex; 
+        }
+        nav.menu.mobile-overlay.is-open {
+            transform: translateX(0); /* Final state: Slide in */
+        }
+        
+        /* Style for links inside the overlay */
+        nav.menu.mobile-overlay a {
+            font-size: 28px;
+            padding: 15px 20px;
+            color: var(--text-light);
+            font-weight: 700;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+        nav.menu.mobile-overlay a:hover {
+            color: var(--accent-pink); 
+            background: rgba(255, 138, 226, 0.08); 
+            border-radius: 12px;
+        }
+        
+        /* 12c. Media Queries: Mobile View */
+        @media (max-width: 768px){ 
+            
+            /* 1. Show the Hamburger Button */
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            /* 2. Hide the Horizontal Menu */
+            nav.menu.desktop-menu {
+                display: none;
+            }
+            
+            /* 3. Re-enable the mobile overlay menu */
+            nav.menu.mobile-overlay {
+                display: flex;
+            }
+            
             .hero{ grid-template-columns: 1fr; text-align: center; }
             .profile{ width: 320px; height: 320px; margin: 0 auto; }
-            .services-grid{ grid-template-columns: repeat(2, 1fr); }
+            .services-grid{ grid-template-columns: 1fr; }
             .contact-grid{ grid-template-columns: 1fr; }
+            .contact-inline { justify-content: center; }
         }
+        
         @media (max-width: 640px){
             .wrap{ margin-top: 80px; } /* Adjust wrapper margin for smaller screens */
             .hero h1.title{ font-size: 38px; }
             .services h2{ font-size: 36px; }
             .services-grid{ grid-template-columns: 1fr; }
-            .contact-inline { justify-content: center; }
         }
     </style>
 </head>
@@ -497,7 +589,19 @@
                 </div>
             </div>
 
-            <nav class="menu" aria-label="Main menu">
+            <button class="mobile-menu-toggle" aria-label="Open menu" id="menuToggle">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+
+            <nav class="menu desktop-menu" aria-label="Main menu">
+                <a href="#home">Home</a>
+                <a href="#what">What I Do</a>
+                <a href="#work">Work</a>
+                <a href="#skills">Tools</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <nav class="menu mobile-overlay" aria-label="Mobile navigation" id="mobileMenu">
                 <a href="#home">Home</a>
                 <a href="#what">What I Do</a>
                 <a href="#work">Work</a>
@@ -512,7 +616,7 @@
         <section id="home" class="hero" aria-labelledby="heroHeading">
             <div class="fade-up">
                 <div class="eyebrow">UI/UX Designer</div>
-                <h1 id="heroHeading" class="title">I design high-impact,<br>  digital experiences.</h1> <br
+                <h1 id="heroHeading" class="title">I design high-impact,<br>  digital experiences.</h1> <br>
                 <p class="lead">Hi, I'm Zhino. I craft professional websites, mobile apps, branding, and marketing visuals, delivering **clarity, high usability, and measurable results.**</p>
 
                 <div class="contact-inline">
@@ -696,12 +800,25 @@
                 <div class="social-card fade-up">
                     <h3>Let's collaborate on your next idea.</h3>
                     <p>Follow my work and see the latest designs, case studies, and creative experiments.</p>
+                    
                     <div class="social-row">
-                        <a class="social-btn" href="https://www.behance.net/" target="_blank">🎨 Behance</a>
-                        <a class="social-btn" href="https://www.linkedin.com/" target="_blank">💼 LinkedIn</a>
-                        <a class="social-btn" href="https://dribbble.com/" target="_blank">🏀 Dribbble</a>
-                        <a class="social-btn" href="mailto: Zhinosalam188@gmail.com">✉️ Email</a>
+                        <a class="social-btn" href="https://www.behance.net/zhinosalam" target="_blank">
+                            <i class="fa-brands fa-square-behance"></i> Behance
+                        </a>
+                        <a class="social-btn" href="https://www.linkedin.com/in/zhino-salam-6666b3180/" target="_blank">
+                            <i class="fa-brands fa-linkedin"></i> LinkedIn
+                        </a>
+                        <a class="social-btn" href="https://dribbble.com/zhino18" target="_blank">
+                            <i class="fa-brands fa-dribbble"></i> Dribbble
+                        </a>
+                        <a class="social-btn" href="https://github.com/Zhinoo" target="_blank">
+                            <i class="fa-brands fa-github"></i> GitHub
+                        </a>
+                        <a class="social-btn" href="mailto: Zhinosalam188@gmail.com">
+                            <i class="fa-solid fa-envelope"></i> Email
+                        </a>
                     </div>
+                    
                 </div>
             </div>
         </section>
@@ -736,7 +853,8 @@
 
                         <div style="display:flex; gap:12px; margin-top:8px;">
                             <button class="btn primary" type="submit">Send message</button>
-                            </div>
+                            <button class="btn ghost" type="button">Attach file</button>
+                        </div>
                     </form>
 
                     <aside>
@@ -745,81 +863,131 @@
                             <p style="color:var(--muted)">Open for freelance & remote work — usually reply within 24–48h.</p>
                         </div>
 
-                        <div class="contact-card" style="margin-top: 18px;">
-                            <strong>Located in</strong>
+                        <div class="contact-card" style="margin-top:16px">
+                            <strong>Contact</strong>
+                            <p style="color:var(--muted)"><span class="phone">📞 +964 750 536 1079</span></p>
                             <p style="color:var(--muted)">📍 Erbil, Kurdistan</p>
+                            <p style="margin-top:8px"><a href="mailto:Zhinosalam188@gmail.com">Zhinosalam188@gmail.com</a></p>
                         </div>
                     </aside>
                 </div>
             </div>
         </section>
-    </div>
-
-    <footer role="contentinfo">
+        
+    </div> 
+    
+    <footer>
         <div class="neon-footer">
             <div class="footer-links">
-                <a class="footer-pill" href="#home">Home</a>
-                <a class="footer-pill" href="#what">What I Do</a>
-                <a class="footer-pill" href="#work">Work</a>
-                <a class="footer-pill" href="#skills">Tools</a>
-                <a class="footer-pill" href="#contact">Contact</a>
+                
+                <a class="footer-pill" href="mailto:Zhinosalam188@gmail.com">
+                    <i class="fa-solid fa-envelope"></i> Zhinosalam188@gmail.com
+                </a>
+                
+                <a class="footer-pill" href="tel:+9647505361079">
+                    📞 +964 750 536 1079
+                </a>
+                
+                <div class="footer-pill">
+                    📍 Erbil, Kurdistan
+                </div>
+
             </div>
+            
             <div class="copyright">
-                &copy; <span id="year"></span> Zhino Salam. All rights reserved.
+                © 2025 • Zhino Salam — UI/UX Design Engineer
             </div>
         </div>
     </footer>
 
-
     <script>
-        // Set current year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
+        // Menu Toggle functionality for mobile
+        const body = document.body; // Added reference to the body
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+        
+        // Function to toggle menu state
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.toggle('is-open');
+            body.classList.toggle('no-scroll', isOpen); // NEW: Toggle no-scroll class
+            
+            // Change icon from hamburger to X and update accessibility
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-xmark');
+            menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+        }
 
-        // Email copy function
-        document.getElementById('copyEmail').addEventListener('click', function() {
+        // 1. Toggle when button is clicked
+        if (menuToggle) {
+            menuToggle.addEventListener('click', toggleMenu);
+        }
+        
+        // 2. Close menu when a link inside the menu is clicked (for smooth scrolling)
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                // Only close if the menu is open
+                if (mobileMenu.classList.contains('is-open')) {
+                    // Slight delay to allow smooth scroll to start before closing
+                    setTimeout(toggleMenu, 200); 
+                }
+                
+                // Handle smooth scrolling (existing logic)
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+        // Smooth scrolling for desktop navigation links
+        document.querySelectorAll('nav.desktop-menu a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Copy Email button functionality
+        document.getElementById('copyEmail').addEventListener('click', function(){
             const email = 'Zhinosalam188@gmail.com';
             navigator.clipboard.writeText(email).then(() => {
-                const originalText = this.innerHTML;
-                this.innerHTML = '✅ Copied!';
+                const originalText = this.textContent;
+                this.textContent = 'Email Copied! ✅';
                 setTimeout(() => {
-                    this.innerHTML = originalText;
-                }, 1500);
+                    this.textContent = originalText;
+                }, 2000);
             }).catch(err => {
                 console.error('Failed to copy email: ', err);
             });
         });
 
-        // Intersection Observer for fade-up animation
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
+        // Simple Intersection Observer for Fade-Up animation
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Check if it's a staggered element and apply delays
-                    if (entry.target.classList.contains('stagger-delay')) {
-                        Array.from(entry.target.children).forEach((child, index) => {
-                            child.style.setProperty('--delay', `${index * 0.1}s`);
-                            child.classList.add('is-visible');
-                        });
-                    }
-                    observer.unobserve(entry.target);
+                    // Stop observing once visible to prevent re-triggering
+                    observer.unobserve(entry.target); 
                 }
             });
-        }, observerOptions);
+        }, {
+            threshold: 0.1, // Element is visible when 10% is in the viewport
+            rootMargin: '0px 0px -50px 0px' // Load elements slightly early
+        });
 
         document.querySelectorAll('.fade-up').forEach(element => {
             observer.observe(element);
         });
-        document.querySelectorAll('.stagger-delay').forEach(element => {
-            observer.observe(element);
-        });
-
         
+        // Demo logic for attach button (since no backend is setup yet)
+        document.querySelector('.contact-grid button.ghost').addEventListener('click', function(e){
+            e.preventDefault();
+            alert('Attach feature is not active yet. Please attach files via email after sending the message.');
+        });
     </script>
 </body>
 </html>
