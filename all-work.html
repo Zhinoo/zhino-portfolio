@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Zhino Salam — All Projects</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* ======================================================================
+           1. DESIGN SYSTEM (VARIABLES) - DARK NEON THEME
+           ====================================================================== */
+        :root{
+            /* Base Colors */
+            --bg: #05040a;             
+            --card: rgba(255, 255, 255, 0.05); 
+            --muted: #bfc6d1;          
+            --text-light: #eef2ff;     
+            --text-dark: #08102a;      
+
+            /* NEON ACCENTS */
+            --accent-purple: #7F5BFF;    
+            --accent-cyan: #00D1FF;      
+            --accent-pink: #FF8AE2;      
+            
+            --radius-default: 16px;
+            --radius-large: 20px;
+            --radius-pill: 999px;
+            --container: 1200px;
+        }
+
+        /* ======================================================================
+           2. BASE STYLES & TYPOGRAPHY
+           ====================================================================== */
+        
+        /* Reset */
+        *, *::before, *::after {box-sizing: border-box;}
+        html, body{height: 100%;}
+        body{
+            margin: 0; 
+            font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(180deg, var(--bg), #090513); 
+            color: var(--text-light); 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.5;
+        }
+        /* ADDED TRANSITION TO ALL LINKS FOR SMOOTH HOVER */
+        a{color: inherit; text-decoration: none; transition: color .2s ease;} 
+        img{display: block; max-width: 100%;}
+        h1, h2, h3, h4 {margin: 0; font-weight: 800; color: var(--text-light);}
+
+        /* Animated Background */
+        .bg-anim{
+            position: fixed; inset: 0; z-index: -5; pointer-events: none;
+            background: radial-gradient(600px 600px at 10% 10%, var(--accent-cyan) 0.08, transparent 8%),
+                        radial-gradient(600px 600px at 90% 90%, var(--accent-purple) 0.06, transparent 10%),
+                        var(--bg); 
+            filter: blur(14px);
+            animation: bgFloat 14s linear infinite alternate;
+        }
+        @keyframes bgFloat { from { transform: translateY(0) } to { transform: translateY(-30px) } }
+
+        /* General Layout */
+        .wrap{
+            max-width: var(--container); 
+            margin: 0 auto; 
+            padding: 0 28px;
+            /* FIX: Add top margin to account for the fixed header */
+            margin-top: 100px; 
+        }
+        .section-inner{ max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+        section.full { width: 100%; padding: 80px 0; position: relative; }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+
+        /* Fade Animation */
+        .fade-up{ opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+        .is-visible{ opacity: 1; transform: none; }
+
+        /* 🔥 CSS FOR STAGGERED ANIMATION 🔥 */
+        .stagger-delay > * {
+            transition-delay: var(--delay, 0s) !important;
+        }
+        
+        /* --- 3. Buttons --- */
+        .btn{
+            display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; 
+            border-radius: var(--radius-pill); font-weight: 700; cursor: pointer;
+            border: 0; transition: all .2s ease;
+        }
+        .btn.primary{ 
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); 
+            color: var(--text-dark); 
+            box-shadow: 0 12px 30px rgba(0, 209, 255, 0.25);
+        }
+        .btn.ghost{ 
+            background: rgba(255,255,255,0.08); 
+            border: 1px solid rgba(255,255,255,0.15); 
+            color: var(--accent-cyan); 
+            backdrop-filter: blur(8px);
+        }
+        .btn:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0, 209, 255, 0.4); }
+
+        /* --- 4. Header / Navigation (FIXED & RESPONSIVE) --- */
+        header.site{
+            position: fixed; 
+            top: 18px;       
+            left: 0;         
+            right: 0;        
+            z-index: 60;     
+        }
+        .nav{
+            max-width: var(--container); 
+            margin: 0 auto; 
+            
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            padding: 10px 18px; border-radius: 14px;
+        }
+        .nav-name{font-weight: 800; font-size: 18px; color: var(--accent-cyan);}
+        .nav-role{font-size: 12px; color: var(--muted);}
+        
+        nav.menu a{padding: 8px 10px; border-radius: 8px; color: var(--muted); font-weight: 600;}
+        nav.menu a:hover{color: var(--accent-cyan); background: rgba(0, 209, 255, 0.08);}
+
+        /* --- 5. New Page Header / Breadcrumb --- */
+        .page-header {
+            padding: 40px 0;
+            margin-bottom: 30px;
+        }
+        .page-header h1 {
+            font-size: 52px;
+            font-weight: 900;
+            color: var(--accent-pink);
+            text-shadow: 0 0 10px rgba(255, 138, 226, 0.5);
+            margin-bottom: 10px;
+        }
+        .page-header p {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 70ch;
+        }
+        .breadcrumb {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .breadcrumb a {
+            color: var(--accent-cyan);
+        }
+        .breadcrumb span {
+            color: var(--accent-pink);
+            font-weight: 600;
+        }
+
+
+        /* --- 8. Work Cards (Copied from index.html) --- */
+        .works-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 30px; }
+        .work-card{ 
+            background: var(--card); padding: 0; border-radius: var(--radius-large); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
+            transition: transform .2s ease, box-shadow .2s ease;
+            backdrop-filter: blur(8px);
+        }
+        .work-card a { 
+            display: block;
+            padding: 16px;
+            border-radius: var(--radius-large);
+        }
+        .work-card:hover{ 
+            transform: translateY(-8px); 
+            box-shadow: 0 0 40px rgba(0, 209, 255, 0.15);
+            border-color: var(--accent-cyan);
+        }
+        .work-card h3{ font-size: 18px; color: var(--accent-cyan); }
+        .work-card p{ color: var(--muted); margin-top: 4px; } 
+
+
+        /* --- 11. Footer (New Neon Contact Bar Style - Copied from index.html) --- */
+        footer{ 
+            padding: 30px 0; 
+            margin-top: 80px; 
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: #06040e; 
+        }
+        .neon-footer {
+            max-width: var(--container); 
+            margin: 0 auto; 
+            padding: 0 28px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center;
+            gap: 20px;
+        }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+        .footer-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: var(--radius-pill);
+            background: rgba(127, 91, 255, 0.05); 
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple);
+            font-weight: 700;
+            font-size: 15px;
+            transition: all .3s ease;
+            box-shadow: 0 0 10px rgba(127, 91, 255, 0.15); 
+        }
+        .footer-pill:hover {
+            background: rgba(127, 91, 255, 0.15);
+            color: var(--text-light);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(127, 91, 255, 0.4);
+        }
+        .copyright {
+            color: var(--muted);
+            font-size: 14px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            width: 100%;
+        }
+
+        /* --- 12. Responsive Adjustments (MOBILE MENU) --- */
+        .mobile-menu-toggle {
+            display: none; 
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 70;
+            transition: color .2s ease;
+        }
+        .mobile-menu-toggle:hover {
+            color: var(--accent-cyan);
+        }
+
+        nav.menu.mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 4, 10, 0.95); 
+            backdrop-filter: blur(20px);
+            z-index: 65;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            
+            transform: translateX(100%); 
+            transition: transform 0.4s ease-in-out;
+            
+            display: flex; 
+        }
+        nav.menu.mobile-overlay.is-open {
+            transform: translateX(0); 
+        }
+        
+        nav.menu.mobile-overlay a {
+            font-size: 28px;
+            padding: 15px 20px;
+            color: var(--text-light);
+            font-weight: 700;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+        nav.menu.mobile-overlay a:hover {
+            color: var(--accent-pink); 
+            background: rgba(255, 138, 226, 0.08); 
+            border-radius: 12px;
+        }
+
+        @media (max-width: 768px){ 
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav.menu.desktop-menu {
+                display: none;
+            }
+            
+            nav.menu.mobile-overlay {
+                display: flex;
+            }
+            
+            .hero{ grid-template-columns: 1fr; text-align: center; }
+            .profile{ width: 320px; height: 320px; margin: 0 auto; }
+            .services-grid{ grid-template-columns: 1fr; }
+            .contact-grid{ grid-template-columns: 1fr; }
+            .contact-inline { justify-content: center; }
+            
+            .page-header h1 {
+                font-size: 40px;
+            }
+            
+        }
+        
+        @media (max-width: 640px){
+            .wrap{ margin-top: 80px; } 
+            .hero h1.title{ font-size: 38px; }
+            .services h2{ font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-anim" aria-hidden="true"></div>
+
+    <header class="site" role="banner">
+        <div class="nav">
+            <div class="nav-left">
+                <div style="display:flex; flex-direction:column; line-height:1">
+                    <div class="nav-name">Zhino Salam</div> <br>
+                    <div class="nav-role">UI/UX Design Engineer</div>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" aria-label="Open menu" id="menuToggle">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+            
+            <nav class="menu desktop-menu" aria-label="Main menu">
+                <a href="index.html#home">Home</a>
+                <a href="index.html#what">What I Do</a>
+                <a href="#work">Work</a> <a href="index.html#skills">Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+
+            <nav class="menu mobile-overlay" aria-label="Mobile navigation" id="mobileMenu">
+                <a href="index.html#home">Home</a>
+                <a href="index.html#what">What I Do</a>
+                <a href="#work">Work</a>
+                <a href="index.html#skills">Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="wrap" role="main">
+
+        <section id="work" class="page-header full">
+            <div class="section-inner">
+                <div class="breadcrumb fade-up">
+                    <a href="index.html">Home</a> / <span>All Projects</span>
+                </div>
+                <h1 class="fade-up" style="transition-delay: 0.1s;">My Complete Work Archive</h1>
+                <p class="fade-up" style="transition-delay: 0.2s;">A detailed look at my recent UI/UX and visual design projects, ranging from large-scale web platforms to focused branding efforts.</p>
+            </div>
+        </section>
+
+
+        <section class="full" style="padding-top: 0; padding-bottom: 100px;">
+            <div class="section-inner">
+                
+                <div class="works-grid fade-up stagger-delay">
+                    
+                    <div class="work-card" style="--delay: 0.1s;">
+                        <a href="project-detail.html"> <img src="https://picsum.photos/600/400?random=1" alt="Project 1: Fintech App Redesign">
+                            <h3>Fintech App Redesign</h3>
+                            <p>Full UX audit and modern UI/UX for a banking application.</p>
+                        </a>
+                    </div>
+                    
+                    <div class="work-card" style="--delay: 0.2s;">
+                        <a href="project-detail-1.html"> <img src="https://picsum.photos/600/400?random=7" alt="Şîn UX Agency">
+                            <h3>Şîn UX Agency — Visual System</h3>
+                            <p>Brand + website focused on conversions.</p>
+                        </a>
+                    </div>
+
+                    <div class="work-card" style="--delay: 0.3s;">
+                        <a href="project-detail.html"> <img src="https://picsum.photos/600/400?random=8" alt="Ari Gaming Icon Pack">
+                            <h3>Ari Gaming — Icon Pack</h3>
+                            <p>Custom icon system and banners for a major tournament.</p>
+                        </a>
+                    </div>
+
+                    <div class="work-card" style="--delay: 0.4s;">
+                        <a href="project-detail-3.html"> <img src="https://picsum.photos/600/400?random=9" alt="Kurdistan Animal Sanctuary">
+                            <h3>Kurdistan Animal Sanctuary</h3>
+                            <p>Branding and UI for adoption platform.</p>
+                        </a>
+                    </div>
+                    
+                    <div class="work-card" style="--delay: 0.5s;">
+                        <a href="project-detail-5.html"> <img src="https://picsum.photos/600/400?random=10" alt="Ecommerce Checkout Flow Optimization">
+                            <h3>E-commerce Checkout Optimization</h3>
+                            <p>A/B testing and flow redesign to boost conversion rates.</p>
+                        </a>
+                    </div>
+                    
+                    <div class="work-card" style="--delay: 0.6s;">
+                        <a href="project-detail-6.html"> <img src="https://picsum.photos/600/400?random=11" alt="Local Cuisine Blog Template">
+                            <h3>Local Cuisine Blog Template</h3>
+                            <p>Visual design for a food and travel content platform.</p>
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <section class="full" style="padding-top: 0;">
+            <div class="section-inner text-center">
+                <h2 class="fade-up" style="color:var(--accent-purple); margin-bottom:10px">Ready to start a project?</h2>
+                <p class="fade-up" style="color:var(--muted); margin-bottom:30px">Send me a message to discuss your design needs.</p>
+                 <a href="index.html#contact" class="btn primary fade-up">
+                    Get in Touch
+                </a>
+            </div>
+        </section>
+        
+    </div> 
+    
+    <footer>
+        <div class="neon-footer">
+            <div class="footer-links">
+                
+                <a class="footer-pill" href="mailto:Zhinosalam188@gmail.com">
+                    <i class="fa-solid fa-envelope"></i> Zhinosalam188@gmail.com
+                </a>
+                
+                <a class="footer-pill" href="tel:+9647505361079">
+                    📞 +964 750 536 1079
+                </a>
+                
+                <div class="footer-pill">
+                    📍 Erbil, Kurdistan
+                </div>
+
+            </div>
+            
+            <div class="copyright">
+                © 2025 • Zhino Salam — UI/UX Design Engineer
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Toggle functionality for mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+        
+        // Function to toggle menu state
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.toggle('is-open');
+            // Change icon from hamburger to X and update accessibility
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-xmark');
+            menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+        }
+
+        // 1. Toggle when button is clicked
+        if (menuToggle) {
+            menuToggle.addEventListener('click', toggleMenu);
+        }
+        
+        // 2. Close menu when a link inside the menu is clicked 
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                // Check if the link points to a hash (#) on the current page
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+                
+                // Close menu if it's open, regardless of hash or external link
+                if (mobileMenu.classList.contains('is-open')) {
+                    toggleMenu(); 
+                }
+            });
+        });
+
+        // Simple Intersection Observer for Fade-Up animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Stop observing once visible to prevent re-triggering
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, {
+            threshold: 0.1, // Element is visible when 10% is in the viewport
+            rootMargin: '0px 0px -50px 0px' // Load elements slightly early
+        });
+
+        document.querySelectorAll('.fade-up').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
