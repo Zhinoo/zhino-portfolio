@@ -47,7 +47,14 @@
             -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale;
             line-height: 1.5;
+            /* Added for preloader logic */
+            transition: overflow .3s ease;
         }
+        /* Added for preloader logic */
+        body.no-scroll {
+            overflow: hidden; 
+        }
+        
         /* ADDED TRANSITION TO ALL LINKS FOR SMOOTH HOVER */
         a{color: inherit; text-decoration: none; transition: color .2s ease;} 
         img{display: block; max-width: 100%;}
@@ -318,11 +325,146 @@
             .wrap{ margin-top: 80px; } 
             .hero h1.title{ font-size: 38px; }
             .services h2{ font-size: 36px; }
+            .filter-bar {
+                justify-content: center; /* Center filters on mobile */
+            }
+        }
+        
+        /* ======================================================================
+           NEW STYLES FOR ALL-WORK.HTML FILTERING
+           ====================================================================== */
+        
+        /* Filter Bar Container */
+        .filter-bar {
+            display: flex;
+            justify-content: flex-start; /* Aligned left for desktop */
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 0 0 40px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 0;
+        }
+        
+        /* Filter Buttons (Category Pills) */
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: rgba(0, 209, 255, 0.05);
+        }
+        
+        /* Active Filter Button */
+        .filter-btn.active {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            color: var(--text-dark);
+            border-color: transparent;
+            box-shadow: 0 0 15px rgba(0, 209, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Style for hiding cards that don't match the filter */
+        .work-card.hidden {
+            display: none !important;
+        }
+
+        /* ======================================================================
+           CUTE & SOFT DOT WAVE PRELOADER STYLES (COPIED FROM INDEX)
+           ====================================================================== */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Soft, gentle background */
+            background: linear-gradient(135deg, #f0e6ff, #fff8fa); 
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            /* Slower transition for a more satisfying reveal */
+            transition: opacity 1.2s cubic-bezier(0.8, 0, 1, 1); 
+        }
+        .preloader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Dot Wave Container */
+        .dot-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+        }
+
+        /* Individual Dot Styling */
+        .dot-wave div {
+            width: 12px; /* Slightly larger dot */
+            height: 12px;
+            margin: 0 6px; /* Increased margin */
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(127, 91, 255, 0.5); /* Subtle glow */
+            background: var(--accent-purple); /* Soft purple dot */
+            animation: soft-wave 1.5s infinite ease-in-out alternate;
+        }
+
+        /* Pink Accent Dot */
+        .dot-wave div:nth-child(3) {
+            background: var(--accent-pink); /* Pink dot in the middle */
+            box-shadow: 0 0 8px rgba(255, 138, 226, 0.7); /* Pink glow */
+        }
+        
+        /* Staggered Delay for the Wave Effect */
+        .dot-wave div:nth-child(1) { animation-delay: 0.0s; }
+        .dot-wave div:nth-child(2) { animation-delay: 0.2s; }
+        .dot-wave div:nth-child(3) { animation-delay: 0.4s; }
+        .dot-wave div:nth-child(4) { animation-delay: 0.6s; }
+        .dot-wave div:nth-child(5) { animation-delay: 0.8s; }
+
+        /* Wave Animation Keyframes: Subtle vertical bounce */
+        @keyframes soft-wave {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-12px); opacity: 0.6; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Optional: Gentle text for a soft feel */
+        .loading-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            color: var(--accent-purple);
+            font-weight: 600;
+            margin-top: 20px;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
+    <div id="preloader" class="preloader">
+        <div class="dot-wave">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="loading-text">Loading Assets...</div>
+    </div>
+    
     <div class="bg-anim" aria-hidden="true"></div>
 
     <header class="site" role="banner">
@@ -341,14 +483,15 @@
             <nav class="menu desktop-menu" aria-label="Main menu">
                 <a href="index.html#home">Home</a>
                 <a href="index.html#what">What I Do</a>
-                <a href="#work">Work</a> <a href="index.html#skills">Tools</a>
+                <a href="#work" class="active">Work</a>
+                <a href="index.html#skills">Tools</a>
                 <a href="index.html#contact">Contact</a>
             </nav>
 
             <nav class="menu mobile-overlay" aria-label="Mobile navigation" id="mobileMenu">
                 <a href="index.html#home">Home</a>
                 <a href="index.html#what">What I Do</a>
-                <a href="#work">Work</a>
+                <a href="#work" class="active">Work</a>
                 <a href="index.html#skills">Tools</a>
                 <a href="index.html#contact">Contact</a>
             </nav>
@@ -357,59 +500,70 @@
 
     <div class="wrap" role="main">
 
-        <section id="work" class="page-header full">
+        <section id="work" class="full" style="padding-bottom: 0;">
             <div class="section-inner">
-                <div class="breadcrumb fade-up">
-                    <a href="index.html">Home</a> / <span>All Projects</span>
+                
+                <div class="page-header text-left fade-up">
+                    <div class="breadcrumb">
+                        <a href="index.html">Home</a> / <span>All Projects</span>
+                    </div>
+                    <h1 style="transition-delay: 0.1s;">My Complete Work Archive</h1>
+                    <p style="transition-delay: 0.2s;">A detailed look at my recent UI/UX and visual design projects, ranging from large-scale web platforms to focused branding efforts.</p>
                 </div>
-                <h1 class="fade-up" style="transition-delay: 0.1s;">My Complete Work Archive</h1>
-                <p class="fade-up" style="transition-delay: 0.2s;">A detailed look at my recent UI/UX and visual design projects, ranging from large-scale web platforms to focused branding efforts.</p>
+                
+                <div class="filter-bar fade-up" style="transition-delay: 0.3s;">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="ui-ux">UI/UX Design</button>
+                    <button class="filter-btn" data-filter="web-dev">Web Dev / Frontend</button>
+                    <button class="filter-btn" data-filter="branding">Branding</button>
+                    <button class="filter-btn" data-filter="icons">Iconography</button>
+                </div>
+
             </div>
         </section>
 
-
-        <section class="full" style="padding-top: 0; padding-bottom: 100px;">
+        <section class="full" style="padding-top: 20px; padding-bottom: 100px;">
             <div class="section-inner">
                 
                 <div class="works-grid fade-up stagger-delay">
                     
-                    <div class="work-card" style="--delay: 0.1s;">
-                        <a href="project-detail.html"> <img src="https://picsum.photos/600/400?random=1" alt="Project 1: Fintech App Redesign">
+                    <div class="work-card" style="--delay: 0.1s;" data-category="ui-ux">
+                        <a href="project-detail.html"> <img src="images/meow.png" alt="Project 1: Fintech App Redesign"> <br>
                             <h3>Fintech App Redesign</h3>
                             <p>Full UX audit and modern UI/UX for a banking application.</p>
                         </a>
                     </div>
                     
-                    <div class="work-card" style="--delay: 0.2s;">
-                        <a href="project-detail-1.html"> <img src="https://picsum.photos/600/400?random=7" alt="Şîn UX Agency">
+                    <div class="work-card" style="--delay: 0.2s;" data-category="branding web-dev">
+                        <a href="project-detail-1.html"> <img src="images/mad.png" alt="Şîn UX Agency"> <br>
                             <h3>Şîn UX Agency — Visual System</h3>
                             <p>Brand + website focused on conversions.</p>
                         </a>
                     </div>
 
-                    <div class="work-card" style="--delay: 0.3s;">
-                        <a href="project-detail.html"> <img src="https://picsum.photos/600/400?random=8" alt="Ari Gaming Icon Pack">
+                    <div class="work-card" style="--delay: 0.3s;" data-category="icons">
+                        <a href="project-detail.html"> <img src="images/app.png" alt="Ari Gaming Icon Pack"> <br>
                             <h3>Ari Gaming — Icon Pack</h3>
                             <p>Custom icon system and banners for a major tournament.</p>
                         </a>
                     </div>
 
-                    <div class="work-card" style="--delay: 0.4s;">
-                        <a href="project-detail-3.html"> <img src="https://picsum.photos/600/400?random=9" alt="Kurdistan Animal Sanctuary">
+                    <div class="work-card" style="--delay: 0.4s;" data-category="branding ui-ux">
+                        <a href="project-detail-3.html"> <img src="https://picsum.photos/600/400?random=9" alt="Kurdistan Animal Sanctuary"> <br>
                             <h3>Kurdistan Animal Sanctuary</h3>
                             <p>Branding and UI for adoption platform.</p>
                         </a>
                     </div>
                     
-                    <div class="work-card" style="--delay: 0.5s;">
-                        <a href="project-detail-5.html"> <img src="https://picsum.photos/600/400?random=10" alt="Ecommerce Checkout Flow Optimization">
+                    <div class="work-card" style="--delay: 0.5s;" data-category="ui-ux">
+                        <a href="project-detail-5.html"> <img src="https://picsum.photos/600/400?random=10" alt="Ecommerce Checkout Flow Optimization"> <br>
                             <h3>E-commerce Checkout Optimization</h3>
                             <p>A/B testing and flow redesign to boost conversion rates.</p>
                         </a>
                     </div>
                     
-                    <div class="work-card" style="--delay: 0.6s;">
-                        <a href="project-detail-6.html"> <img src="https://picsum.photos/600/400?random=11" alt="Local Cuisine Blog Template">
+                    <div class="work-card" style="--delay: 0.6s;" data-category="ui-ux">
+                        <a href="project-detail-6.html"> <img src="https://picsum.photos/600/400?random=11" alt="Local Cuisine Blog Template"> <br>
                             <h3>Local Cuisine Blog Template</h3>
                             <p>Visual design for a food and travel content platform.</p>
                         </a>
@@ -456,6 +610,9 @@
     </footer>
 
     <script>
+        // Get the body element
+        const body = document.body;
+
         // Menu Toggle functionality for mobile
         const menuToggle = document.getElementById('menuToggle');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -510,6 +667,90 @@
 
         document.querySelectorAll('.fade-up').forEach(element => {
             observer.observe(element);
+        });
+        
+        
+        // ======================================================================
+        // JAVASCRIPT: CATEGORY FILTERING LOGIC
+        // ======================================================================
+        
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const workCards = document.querySelectorAll('.work-card');
+
+        // Function to handle filtering
+        function filterProjects(filter) {
+            workCards.forEach(card => {
+                const categories = card.getAttribute('data-category');
+                
+                // If filter is 'all' OR the card's categories string contains the filter
+                if (filter === 'all' || (categories && categories.includes(filter))) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Event listener for filter buttons
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filterValue = this.getAttribute('data-filter');
+
+                // 1. Remove active class from all buttons and add to the clicked one
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                // 2. Perform the filtering
+                filterProjects(filterValue);
+            });
+        });
+        
+        // Ensure the 'All' filter is applied on initial load if the button exists
+        document.addEventListener('DOMContentLoaded', () => {
+             const allButton = document.querySelector('.filter-btn.active');
+             if (allButton) {
+                 filterProjects(allButton.getAttribute('data-filter'));
+             }
+        });
+
+        // ======================================================================
+        // PRELOADER LOGIC (Cute & Soft Dot Wave)
+        // ======================================================================
+        const preloader = document.getElementById('preloader');
+
+        function fadeOutPreloader() {
+            if (preloader) {
+                // Start the smooth fade-out
+                preloader.classList.add('fade-out');
+                
+                // Wait for the transition to finish, then hide/remove the preloader
+                preloader.addEventListener('transitionend', function() {
+                    preloader.style.display = 'none';
+                    // Re-enable scrolling
+                    body.classList.remove('no-scroll');
+                });
+            }
+        }
+        
+        // Main Preloader Sequence
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lock scroll during loading
+            body.classList.add('no-scroll'); 
+            
+            // Wait for all resources (images, etc.) to load
+            window.addEventListener('load', () => {
+                // Delay fade-out slightly to ensure the animation is seen for a moment
+                setTimeout(fadeOutPreloader, 400); 
+            });
+
+            // FALLBACK: If the 'load' event takes too long, 
+            // force the fade-out after a maximum time limit.
+            setTimeout(() => {
+                if(preloader.style.opacity !== '0' && preloader.style.display !== 'none') {
+                    console.log("Preloader fallback triggered.");
+                    fadeOutPreloader();
+                }
+            }, 3000); // Max 3 seconds display time for the preloader
         });
     </script>
 </body>
