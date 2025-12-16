@@ -427,56 +427,53 @@
             box-shadow: 0 0 8px rgba(0, 209, 255, 0.5);
         }
         
-        /* --- 11. Footer (Neon Contact Bar Style) --- */
+        /* ADJUSTMENT: BUTTON SPACING */
+        .contact-card button.btn.primary {
+            margin-top: 18px; /* Increased space before button */
+            width: auto; /* Revert to natural width */
+            padding-left: 30px; /* More padding */
+            padding-right: 30px; /* More padding */
+        }
+        
+        /* --- 11. Footer (Clean Professional Style) --- */
         footer{ 
-            padding: 30px 0; 
+            padding: 40px 0; 
             margin-top: 80px; 
             border-top: 1px solid rgba(255,255,255,0.05);
-            background: #06040e; 
+            background: var(--bg); /* Use base background color */
         }
-        .neon-footer {
+        .footer-inner {
             max-width: var(--container); 
             margin: 0 auto; 
             padding: 0 28px; 
             display: flex; 
-            flex-direction: column; 
+            justify-content: space-between; 
             align-items: center; 
-            text-align: center;
-            gap: 20px;
+            gap: 30px;
         }
-        .footer-links {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding-bottom: 20px;
+        
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--accent-cyan);
+            line-height: 1.2;
         }
-        .footer-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border-radius: var(--radius-pill);
-            background: rgba(127, 91, 255, 0.05); 
-            border: 1px solid var(--accent-purple);
-            color: var(--accent-purple);
-            font-weight: 700;
+
+        .footer-menu a {
+            color: var(--muted);
+            margin-left: 20px;
             font-size: 15px;
-            transition: all .3s ease;
-            box-shadow: 0 0 10px rgba(127, 91, 255, 0.15); 
+            font-weight: 600;
         }
-        .footer-pill:hover {
-            background: rgba(127, 91, 255, 0.15);
-            color: var(--text-light);
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(127, 91, 255, 0.4);
+        .footer-menu a:hover {
+            color: var(--accent-purple);
         }
+
         .copyright {
             color: var(--muted);
             font-size: 14px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            width: 100%;
+            margin-top: 20px;
+            text-align: center;
         }
 
         /* --- 12. Responsive Adjustments (MOBILE MENU) --- */
@@ -550,6 +547,15 @@
             .services-grid{ grid-template-columns: 1fr; }
             .contact-grid{ grid-template-columns: 1fr; }
             .contact-inline { justify-content: center; }
+            
+            /* Footer Responsive Adjustments */
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-menu a {
+                margin: 0 10px;
+            }
         }
         
         @media (max-width: 640px){
@@ -560,7 +566,7 @@
         }
 
         /* ======================================================================
-           NEW: CUTE & SOFT DOT WAVE PRELOADER STYLES
+           PRELOADER STYLES
            ====================================================================== */
         .preloader {
             position: fixed;
@@ -826,232 +832,219 @@
 
         <section id="work" class="full">
             <div class="section-inner">
-                <h2 class="text-center fade-up" style="color:var(--accent-pink); margin-bottom:10px">Selected Projects</h2>
-                <p class="text-center" style="color:var(--muted); margin-bottom:30px">A few highlights — click to open the case study.</p>
-
+                <h2 class="text-center fade-up" style="color:var(--accent-cyan); margin-bottom:8px">Selected Work</h2>
+                <p class="text-center" style="color:var(--muted); margin-bottom:30px">Projects showcasing UI/UX and visual branding skills.</p>
+                
                 <div class="works-grid fade-up stagger-delay">
                     
                     <div class="work-card fade-up" style="--delay: 0.1s;">
-                        <a href="project-detail-2.html">
-                            <img src="images/meow.png" alt="Placeholder image for Fintech App Redesign">
-                            <h3>Fintech App Redesign</h3>
-                            <p>UI/UX Design, Strategy</p>
+                        <a href="#">
+                            <div class="neon-box">
+                                <img src="images/placeholder-work1.jpg" alt="AI Chatbot Interface Preview">
+                            </div>
+                            <h3>AI Chatbot Interface</h3>
+                            <p>UX, App Design, Interaction Prototypes</p>
                         </a>
                     </div>
                     
                     <div class="work-card fade-up" style="--delay: 0.2s;">
-                        <a href="project-detail-1.html">
-                            <img src="images/mad.png" alt="Placeholder image for Şîn UX Agency">
-                            <h3>Şîn UX Agency — Visual System</h3>
-                            <p>Branding, Web Design</p>
+                        <a href="#">
+                             <div class="neon-box">
+                                <img src="images/placeholder-work2.jpg" alt="eCommerce Redesign Preview">
+                            </div>
+                            <h3>eCommerce Redesign</h3>
+                            <p>Web Design, Branding, Conversion Optimization</p>
                         </a>
                     </div>
-
+                    
                     <div class="work-card fade-up" style="--delay: 0.3s;">
-                        <a href="project-detail-3.html">
-                            <img src="images/app.png" alt="Placeholder image for Ari Gaming">
-                            <h3>Ari Gaming — Icon Pack</h3>
-                            <p>Custom Illustration, UI Assets</p>
+                        <a href="#">
+                             <div class="neon-box">
+                                <img src="images/placeholder-work3.jpg" alt="Mobile Banking App Preview">
+                            </div>
+                            <h3>Mobile Banking App</h3>
+                            <p>UI Design, Accessibility Review</p>
                         </a>
                     </div>
+                    
                 </div>
-
-                <div class="text-center fade-up" style="transition-delay: 0.4s;">
-                    <a href="all-work.html" class="btn primary" style="margin-top: 30px;">
-                        View All Projects (6+)
-                    </a>
+                
+                <div class="social-card fade-up">
+                    <h3>Let's Connect and Build</h3>
+                    <p style="color:var(--muted); margin-bottom: 20px;">I'm always open to new projects and interesting ideas. Find me here:</p>
+                    <div class="social-row">
+                        <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                        <a href="#" class="social-btn" aria-label="GitHub"><i class="fa-brands fa-github"></i> GitHub</a>
+                        <a href="#" class="social-btn" aria-label="Dribbble"><i class="fa-brands fa-dribbble"></i> Dribbble</a>
+                        <a href="#" class="social-btn" aria-label="Behance"><i class="fa-brands fa-behance"></i> Behance</a>
+                    </div>
                 </div>
             </div>
         </section>
+
 
         <section id="contact" class="full">
-            <h2 class="text-center fade-up" style="color:var(--accent-cyan); margin-bottom:8px">Get In Touch</h2>
-            <p class="text-center fade-up" style="color:var(--muted); margin-bottom:30px">I am currently open to freelance opportunities.</p>
+            <div class="section-inner">
+                <h2 class="text-center fade-up" style="color:var(--accent-purple); margin-bottom:8px">Get In Touch</h2>
+                <p class="text-center" style="color:var(--muted); margin-bottom:30px">Let's start building your next digital experience.</p>
 
-            <div class="contact-grid">
-                
-                <div class="contact-card fade-up">
-                    <form id="contactForm">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" required>
-
-                        <label for="email">Your Email</label>
-                        <input type="email" id="email" name="email" required>
-
-                        <label for="message">Your Message</label>
-                        <textarea id="message" name="message" rows="6" required></textarea>
-
-                        <button type="submit" class="btn primary">Send Message</button>
-                    </form>
-                </div>
-
-                <div class="contact-card fade-up" style="transition-delay: 0.1s;">
-                    <h3 style="color:var(--accent-cyan); margin-bottom:12px;">Contact Details</h3>
-                    <p style="color:var(--muted);">
-                        Feel free to reach out directly via email or phone. I usually respond within 24 hours.
-                    </p>
+                <div class="contact-grid">
                     
-                    <ul style="list-style:none; padding:0; margin-top:20px;">
-                        <li style="margin-bottom:10px; color:var(--text-light);"><i class="fa-solid fa-envelope" style="color:var(--accent-purple); margin-right:10px;"></i> zhinosalam@gmail.com</li>
-                        <li style="margin-bottom:10px; color:var(--text-light);"><i class="fa-solid fa-phone" style="color:var(--accent-purple); margin-right:10px;"></i> +964 750 536 1079</li>
-                        <li style="margin-bottom:10px; color:var(--text-light);"><i class="fa-solid fa-location-dot" style="color:var(--accent-purple); margin-right:10px;"></i> Erbil, Kurdistan</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="social-card fade-up" style="transition-delay: 0.2s;">
-                <h3>Connect With Me</h3>
-                <div class="social-row">
-                    <a href="https://linkedin.com/in/zhinosalam" target="_blank" class="social-btn">
-                        <i class="fa-brands fa-linkedin"></i> LinkedIn
-                    </a>
-                    <a href="https://dribbble.com/zhinosalam" target="_blank" class="social-btn">
-                        <i class="fa-brands fa-dribbble"></i> Dribbble
-                    </a>
-                    <a href="https://github.com/zhinosalam" target="_blank" class="social-btn">
-                        <i class="fa-brands fa-github"></i> GitHub
-                    </a>
+                    <div class="contact-card fade-up" style="transition-delay: 0.1s;">
+                        <form action="#" method="POST">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Your full name">
+                            
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required placeholder="Project Inquiry / Feedback">
+
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Tell me about your project or feedback..."></textarea>
+
+                            <button type="submit" class="btn primary">Send Message <i class="fa-solid fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+
+                    <div class="contact-card fade-up" style="transition-delay: 0.2s;">
+                        <h3 style="color:var(--accent-cyan); font-size: 20px; margin-bottom: 15px;">Direct Contact Info</h3>
+                        <p style="color:var(--muted);">For urgent inquiries or a quick chat, feel free to use my direct contact details.</p>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color:var(--text-light); font-weight: 700;">Email</h4>
+                            <p style="color:var(--accent-cyan);">zhinosalam@gmail.com</p>
+                        </div>
+
+                        <div style="margin-top: 20px;">
+                            <h4 style="color:var(--text-light); font-weight: 700;">Phone</h4>
+                            <p class="phone" style="color:var(--accent-purple);">+964 750 536 1079</p>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color:var(--text-light); font-weight: 700;">Location</h4>
+                            <p style="color:var(--muted);">Erbil, Kurdistan Region, Iraq</p>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </section>
-
-    </div> 
+    </div>
 
     <footer>
-        <div class="neon-footer">
-            <div class="footer-links">
-                <div class="footer-pill"><i class="fa-solid fa-laptop-code"></i> UI/UX Design Engineer</div>
-                <div class="footer-pill"><i class="fa-solid fa-star"></i> Featured on Dribbble</div>
+        <div class="footer-inner">
+            <div class="footer-logo">
+                Zhino Salam<br>
+                <span style="font-size:12px; font-weight: 600; color:var(--muted)">UI/UX Design Engineer</span>
             </div>
-            <p class="copyright">© 2024 Zhino Salam. All rights reserved.</p>
+            <nav class="footer-menu" aria-label="Footer navigation">
+                <a href="#home">Home</a>
+                <a href="#what">What I Do</a>
+                <a href="all-work.html">Work</a>
+                <a href="#contact">Contact</a>
+            </nav>
         </div>
+        <p class="copyright">
+            &copy; 2025 Zhino Salam. All rights reserved. Built with passion and code.
+        </p>
     </footer>
 
     <script>
+        // --- 1. Preloader and Body Visibility ---
         document.addEventListener('DOMContentLoaded', function() {
-
-            // ===============================================
-            // 1. PRELOADER LOGIC
-            // ===============================================
             const preloader = document.getElementById('preloader');
+            const body = document.body;
 
-            const hidePreloader = () => {
-                if (preloader) {
-                    preloader.classList.add('fade-out');
-                    document.body.classList.remove('no-scroll');
-                }
-            };
+            // Fade out the preloader and remove 'no-scroll' class after a delay
+            setTimeout(() => {
+                preloader.classList.add('fade-out');
+                // Remove preloader after transition (1.2s + buffer)
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    body.classList.remove('no-scroll');
+                    initAnimations(); // Start fade-up animations
+                }, 1300); 
+            }, 600); // Initial 0.6s delay for the wave animation to run
 
-            window.addEventListener('load', () => {
-                // Wait 400ms after load, then start the 1.2s fade-out transition
-                setTimeout(hidePreloader, 400); 
-            });
+            // --- 2. Intersection Observer for Fade-Up Animations ---
+            function initAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            // Apply staggered delays for lists
+                            if (entry.target.classList.contains('stagger-delay')) {
+                                Array.from(entry.target.children).forEach((child, index) => {
+                                    // Set the delay custom property
+                                    child.style.setProperty('--delay', `${index * 0.1}s`);
+                                    // Ensure child also gets the visibility class
+                                    child.classList.add('is-visible'); 
+                                });
+                            }
+                            // Stop observing after it becomes visible
+                            observer.unobserve(entry.target); 
+                        }
+                    });
+                }, {
+                    threshold: 0.1, // Trigger when 10% of element is visible
+                    rootMargin: '0px 0px -50px 0px' // Load slightly before user sees it
+                });
 
-            // Fallback in case the 'load' event is very slow or doesn't fire (max 3 seconds)
-            setTimeout(hidePreloader, 3000); 
+                document.querySelectorAll('.fade-up').forEach(element => {
+                    observer.observe(element);
+                });
+            }
 
-
-            // ===============================================
-            // 2. MOBILE MENU TOGGLE
-            // ===============================================
+            // --- 3. Mobile Menu Toggle ---
             const menuToggle = document.getElementById('menuToggle');
             const mobileMenu = document.getElementById('mobileMenu');
             const menuIcon = document.getElementById('menuIcon');
 
-            if (menuToggle && mobileMenu && menuIcon) {
-                menuToggle.addEventListener('click', () => {
-                    const isOpen = mobileMenu.classList.toggle('is-open');
-                    menuIcon.classList.toggle('fa-bars', !isOpen);
-                    menuIcon.classList.toggle('fa-xmark', isOpen);
-                    document.body.classList.toggle('no-scroll', isOpen);
+            menuToggle.addEventListener('click', function() {
+                const isOpen = mobileMenu.classList.toggle('is-open');
+                body.classList.toggle('no-scroll', isOpen);
+                
+                // Toggle the icon between bars and close
+                if (isOpen) {
+                    menuIcon.classList.remove('fa-bars');
+                    menuIcon.classList.add('fa-xmark');
+                } else {
+                    menuIcon.classList.remove('fa-xmark');
+                    menuIcon.classList.add('fa-bars');
+                }
+            });
 
-                    // Close menu if a link is clicked
-                    mobileMenu.querySelectorAll('a').forEach(link => {
-                        link.addEventListener('click', () => {
-                            if (mobileMenu.classList.contains('is-open')) {
-                                mobileMenu.classList.remove('is-open');
-                                menuIcon.classList.remove('fa-xmark');
-                                menuIcon.classList.add('fa-bars');
-                                document.body.classList.remove('no-scroll');
-                            }
-                        }, { once: true });
-                    });
+            // Close mobile menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('is-open');
+                    body.classList.remove('no-scroll');
+                    menuIcon.classList.remove('fa-xmark');
+                    menuIcon.classList.add('fa-bars');
                 });
-            }
+            });
 
-            // ===============================================
-            // 3. FADE-UP ANIMATION (Intersection Observer)
-            // ===============================================
-            const fadeUpElements = document.querySelectorAll('.fade-up');
-            
-            if (fadeUpElements.length > 0) {
-                const observerOptions = {
-                    root: null, 
-                    rootMargin: '0px',
-                    threshold: 0.1 
-                };
+            // --- 4. Copy Email Functionality ---
+            const copyEmailBtn = document.getElementById('copyEmail');
+            const emailAddress = "zhinosalam@gmail.com"; 
 
-                const observer = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('is-visible');
-                            // Calculate and apply staggered delay for .stagger-delay containers
-                            if (entry.target.classList.contains('stagger-delay')) {
-                                entry.target.querySelectorAll('.fade-up').forEach((child, index) => {
-                                    child.style.setProperty('--delay', `${(index * 0.1) + 0.1}s`);
-                                });
-                            }
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, observerOptions);
-
-                fadeUpElements.forEach(el => observer.observe(el));
-            }
-
-
-            // ===============================================
-            // 4. CONTACT FORM VALIDATION (Simple)
-            // ===============================================
-            const contactForm = document.getElementById('contactForm');
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Replace with your actual backend endpoint later
-                    const formAction = "YOUR_FORM_SUBMISSION_ENDPOINT_HERE"; 
-
-                    if (formAction === "YOUR_FORM_SUBMISSION_ENDPOINT_HERE") {
-                         alert("Form submitted! (NOTE: This is a frontend demo.)");
-                         contactForm.reset();
-                         return;
-                    }
-
-                    // For now, it just shows an alert.
-                });
-            }
-
-
-            // ===============================================
-            // 5. EMAIL COPY FUNCTION
-            // ===============================================
-            const copyEmailButton = document.getElementById('copyEmail');
-            if (copyEmailButton) {
-                copyEmailButton.addEventListener('click', () => {
-                    const email = "zhinosalam@gmail.com";
-                    navigator.clipboard.writeText(email).then(() => {
-                        const originalText = copyEmailButton.textContent;
-                        copyEmailButton.textContent = 'Email Copied!';
+            if (copyEmailBtn) {
+                copyEmailBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText(emailAddress).then(() => {
+                        // Provide visual feedback
+                        const originalText = copyEmailBtn.innerHTML;
+                        copyEmailBtn.innerHTML = 'Email Copied! <i class="fa-solid fa-check"></i>';
                         
                         setTimeout(() => {
-                            copyEmailButton.textContent = originalText;
-                        }, 1500);
+                            copyEmailBtn.innerHTML = originalText;
+                        }, 2000); 
                     }).catch(err => {
-                        console.error('Failed to copy email: ', err);
+                        console.error('Could not copy text: ', err);
                     });
                 });
             }
-
         });
     </script>
 </body>
