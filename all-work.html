@@ -6,751 +6,293 @@
     <title>Zhino Salam — All Projects</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     <style>
         /* ======================================================================
-           1. DESIGN SYSTEM (VARIABLES) - DARK NEON THEME
+           1. CORE SYSTEM & SHARED STYLES
            ====================================================================== */
         :root{
-            /* Base Colors */
             --bg: #05040a;             
-            --card: rgba(255, 255, 255, 0.05); 
             --muted: #bfc6d1;          
             --text-light: #eef2ff;     
-            --text-dark: #08102a;      
-
-            /* NEON ACCENTS */
             --accent-purple: #7F5BFF;    
             --accent-cyan: #00D1FF;      
             --accent-pink: #FF8AE2;      
-            
-            --radius-default: 16px;
-            --radius-large: 20px;
-            --radius-pill: 999px;
             --container: 1200px;
         }
 
-        /* ======================================================================
-           2. BASE STYLES & TYPOGRAPHY
-           ====================================================================== */
-        
-        /* Reset */
         *, *::before, *::after {box-sizing: border-box;}
-        html, body{height: 100%;}
         body{
-            margin: 0; 
-            font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: linear-gradient(180deg, var(--bg), #090513); 
-            color: var(--text-light); 
-            -webkit-font-smoothing: antialiased; 
-            -moz-osx-font-smoothing: grayscale;
-            line-height: 1.5;
-            /* Added for preloader logic */
-            transition: overflow .3s ease;
+            margin: 0; font-family: 'Inter', sans-serif;
+            background: var(--bg); color: var(--text-light); 
+            line-height: 1.5; overflow-x: hidden;
         }
-        /* Added for preloader logic */
-        body.no-scroll {
-            overflow: hidden; 
-        }
+        body.no-scroll { overflow: hidden; }
+        a{color: inherit; text-decoration: none; transition: 0.3s;} 
         
-        /* ADDED TRANSITION TO ALL LINKS FOR SMOOTH HOVER */
-        a{color: inherit; text-decoration: none; transition: color .2s ease;} 
-        img{display: block; max-width: 100%;}
-        h1, h2, h3, h4 {margin: 0; font-weight: 800; color: var(--text-light);}
-
-        /* Animated Background */
         .bg-anim{
             position: fixed; inset: 0; z-index: -5; pointer-events: none;
-            background: radial-gradient(600px 600px at 10% 10%, var(--accent-cyan) 0.08, transparent 8%),
-                        radial-gradient(600px 600px at 90% 90%, var(--accent-purple) 0.06, transparent 10%),
-                        var(--bg); 
-            filter: blur(14px);
-            animation: bgFloat 14s linear infinite alternate;
+            background: radial-gradient(circle at 15% 15%, rgba(0, 209, 255, 0.08), transparent 45%),
+                        radial-gradient(circle at 85% 85%, rgba(127, 91, 255, 0.08), transparent 45%);
         }
-        @keyframes bgFloat { from { transform: translateY(0) } to { transform: translateY(-30px) } }
 
-        /* General Layout */
-        .wrap{
-            max-width: var(--container); 
-            margin: 0 auto; 
-            padding: 0 28px;
-            /* FIX: Add top margin to account for the fixed header */
-            margin-top: 100px; 
-        }
-        .section-inner{ max-width: var(--container); margin: 0 auto; padding: 0 24px; }
-        section.full { width: 100%; padding: 80px 0; position: relative; }
-        .text-center { text-align: center; }
-        .text-left { text-align: left; }
+        .wrap{ max-width: var(--container); margin: 1200px auto 0; padding: 0 28px; margin-top: 140px; }
 
-        /* Fade Animation */
-        .fade-up{ opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
-        .is-visible{ opacity: 1; transform: none; }
-
-        /* 🔥 CSS FOR STAGGERED ANIMATION 🔥 */
-        .stagger-delay > * {
-            transition-delay: var(--delay, 0s) !important;
-        }
-        
-        /* --- 3. Buttons --- */
-        .btn{
-            display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; 
-            border-radius: var(--radius-pill); font-weight: 700; cursor: pointer;
-            border: 0; transition: all .2s ease;
-        }
-        .btn.primary{ 
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); 
-            color: var(--text-dark); 
-            box-shadow: 0 12px 30px rgba(0, 209, 255, 0.25);
-        }
-        .btn.ghost{ 
-            background: rgba(255,255,255,0.08); 
-            border: 1px solid rgba(255,255,255,0.15); 
-            color: var(--accent-cyan); 
-            backdrop-filter: blur(8px);
-        }
-        .btn:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0, 209, 255, 0.4); }
-
-        /* --- 4. Header / Navigation (FIXED & RESPONSIVE) --- */
-        header.site{
-            position: fixed; 
-            top: 18px;       
-            left: 0;         
-            right: 0;        
-            z-index: 60;     
-        }
+        /* --- Updated Header & Nav (Matches Index) --- */
+        header.site{ position: fixed; top: 18px; left: 0; right: 0; z-index: 60; }
         .nav{
-            max-width: var(--container); 
-            margin: 0 auto; 
-            
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            max-width: var(--container); margin: 0 auto; 
+            background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: space-between;
             padding: 10px 18px; border-radius: 14px;
         }
         .nav-name{font-weight: 800; font-size: 18px; color: var(--accent-cyan);}
         .nav-role{font-size: 12px; color: var(--muted);}
         
-        nav.menu a{padding: 8px 10px; border-radius: 8px; color: var(--muted); font-weight: 600;}
-        nav.menu a:hover{color: var(--accent-cyan); background: rgba(0, 209, 255, 0.08);}
-
-        /* --- 5. New Page Header / Breadcrumb --- */
-        .page-header {
-            padding: 40px 0;
-            margin-bottom: 30px;
-        }
-        .page-header h1 {
-            font-size: 52px;
-            font-weight: 900;
-            color: var(--accent-pink);
-            text-shadow: 0 0 10px rgba(255, 138, 226, 0.5);
-            margin-bottom: 10px;
-        }
-        .page-header p {
-            font-size: 18px;
-            color: var(--muted);
-            max-width: 70ch;
-        }
-        .breadcrumb {
-            font-size: 14px;
-            color: var(--muted);
-            margin-bottom: 8px;
-        }
-        .breadcrumb a {
-            color: var(--accent-cyan);
-        }
-        .breadcrumb span {
-            color: var(--accent-pink);
-            font-weight: 600;
-        }
-
-
-        /* --- 8. Work Cards (Copied from index.html) --- */
-        .works-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 30px; }
-        .work-card{ 
-            background: var(--card); padding: 0; border-radius: var(--radius-large); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
-            transition: transform .2s ease, box-shadow .2s ease;
-            backdrop-filter: blur(8px);
-        }
-        .work-card a { 
-            display: block;
-            padding: 16px;
-            border-radius: var(--radius-large);
-        }
-        .work-card:hover{ 
-            transform: translateY(-8px); 
-            box-shadow: 0 0 40px rgba(0, 209, 255, 0.15);
-            border-color: var(--accent-cyan);
-        }
-        .work-card h3{ font-size: 18px; color: var(--accent-cyan); }
-        .work-card p{ color: var(--muted); margin-top: 4px; } 
-
-
-        /* --- 11. Footer (New Neon Contact Bar Style - Copied from index.html) --- */
-        footer{ 
-            padding: 30px 0; 
-            margin-top: 80px; 
-            border-top: 1px solid rgba(255,255,255,0.05);
-            background: #06040e; 
-        }
-        .neon-footer {
-            max-width: var(--container); 
-            margin: 0 auto; 
-            padding: 0 28px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center;
-            gap: 20px;
-        }
-        .footer-links {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding-bottom: 20px;
-        }
-        .footer-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border-radius: var(--radius-pill);
-            background: rgba(127, 91, 255, 0.05); 
-            border: 1px solid var(--accent-purple);
-            color: var(--accent-purple);
-            font-weight: 700;
-            font-size: 15px;
-            transition: all .3s ease;
-            box-shadow: 0 0 10px rgba(127, 91, 255, 0.15); 
-        }
-        .footer-pill:hover {
-            background: rgba(127, 91, 255, 0.15);
-            color: var(--text-light);
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(127, 91, 255, 0.4);
-        }
-        .copyright {
-            color: var(--muted);
-            font-size: 14px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            width: 100%;
-        }
-
-        /* --- 12. Responsive Adjustments (MOBILE MENU) --- */
         .mobile-menu-toggle {
-            display: none; 
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 24px;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 70;
-            transition: color .2s ease;
+            background: none; border: none; color: var(--text-light); font-size: 24px; cursor: pointer; display: none;
         }
-        .mobile-menu-toggle:hover {
-            color: var(--accent-cyan);
-        }
+
+        nav.menu.desktop-menu a{padding: 8px 10px; border-radius: 8px; color: var(--muted); font-weight: 600; font-size: 14px;}
+        nav.menu.desktop-menu a:hover, nav.menu.desktop-menu a.active{color: var(--accent-cyan); background: rgba(0, 209, 255, 0.08);}
 
         nav.menu.mobile-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 4, 10, 0.95); 
-            backdrop-filter: blur(20px);
-            z-index: 65;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            
-            transform: translateX(100%); 
-            transition: transform 0.4s ease-in-out;
-            
-            display: flex; 
+            position: fixed; inset: 0; background: var(--bg); z-index: 65;
+            flex-direction: column; justify-content: center; align-items: center; gap: 30px;
+            transform: translateX(100%); transition: 0.4s ease; display: flex;
         }
-        nav.menu.mobile-overlay.is-open {
-            transform: translateX(0); 
-        }
-        
-        nav.menu.mobile-overlay a {
-            font-size: 28px;
-            padding: 15px 20px;
-            color: var(--text-light);
-            font-weight: 700;
-            transition: color 0.2s ease, background 0.2s ease;
-        }
-        nav.menu.mobile-overlay a:hover {
-            color: var(--accent-pink); 
-            background: rgba(255, 138, 226, 0.08); 
-            border-radius: 12px;
+        nav.menu.mobile-overlay.is-open { transform: translateX(0); }
+        nav.menu.mobile-overlay a { font-size: 28px; font-weight: 700; }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle { display: block; }
+            .desktop-menu { display: none; }
         }
 
-        @media (max-width: 768px){ 
-            
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            nav.menu.desktop-menu {
-                display: none;
-            }
-            
-            nav.menu.mobile-overlay {
-                display: flex;
-            }
-            
-            .hero{ grid-template-columns: 1fr; text-align: center; }
-            .profile{ width: 320px; height: 320px; margin: 0 auto; }
-            .services-grid{ grid-template-columns: 1fr; }
-            .contact-grid{ grid-template-columns: 1fr; }
-            .contact-inline { justify-content: center; }
-            
-            .page-header h1 {
-                font-size: 40px;
-            }
-            
-        }
-        
-        @media (max-width: 640px){
-            .wrap{ margin-top: 80px; } 
-            .hero h1.title{ font-size: 38px; }
-            .services h2{ font-size: 36px; }
-            .filter-bar {
-                justify-content: center; /* Center filters on mobile */
-            }
-        }
-        
-        /* ======================================================================
-           NEW STYLES FOR ALL-WORK.HTML FILTERING
-           ====================================================================== */
-        
-        /* Filter Bar Container */
-        .filter-bar {
-            display: flex;
-            justify-content: flex-start; /* Aligned left for desktop */
-            flex-wrap: wrap;
-            gap: 12px;
-            padding: 0 0 40px; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 0;
-        }
-        
-        /* Filter Buttons (Category Pills) */
+        /* --- Filtering Bar --- */
+        .filter-bar { display: flex; gap: 12px; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .filter-btn {
-            padding: 8px 16px;
-            border-radius: var(--radius-pill);
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--muted);
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            padding: 10px 20px; border-radius: 100px; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1); color: var(--muted); font-weight: 600; cursor: pointer; transition: 0.3s;
         }
-        .filter-btn:hover {
-            border-color: var(--accent-cyan);
-            color: var(--accent-cyan);
-            background: rgba(0, 209, 255, 0.05);
+        .filter-btn.active { background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); color: #000; border-color: transparent; }
+
+        /* --- Work Cards --- */
+        .works-grid{ display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 32px; margin-top: 30px; }
+        .work-card { 
+            position: relative; background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border-radius: 32px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); overflow: hidden; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
-        /* Active Filter Button */
-        .filter-btn.active {
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-            color: var(--text-dark);
-            border-color: transparent;
-            box-shadow: 0 0 15px rgba(0, 209, 255, 0.4);
-            transform: translateY(-2px);
+        .work-card::after {
+            content: ''; position: absolute; inset: 0; border-radius: 32px; padding: 1px;
+            background: linear-gradient(135deg, rgba(0, 209, 255, 0.4), transparent, rgba(127, 91, 255, 0.4));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: 0.6s;
         }
-        
-        /* Style for hiding cards that don't match the filter */
-        .work-card.hidden {
-            display: none !important;
+        .work-card a { display: block; padding: 16px; position: relative; z-index: 2; }
+        .work-img-container { width: 100%; height: 260px; border-radius: 22px; overflow: hidden; position: relative; margin-bottom: 24px; background: #000; }
+        .work-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); transition: 0.8s ease; }
+        .glass-badge {
+            position: absolute; top: 15px; left: 15px; background: rgba(10, 9, 16, 0.7); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-family: 'Anonymous Pro', monospace;
+            font-size: 10px; font-weight: 700; padding: 6px 14px; border-radius: 100px; text-transform: uppercase; display: flex; align-items: center; gap: 6px;
+        }
+        .work-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 8px; color: #fff; }
+        .work-card p { color: var(--muted); font-size: 15px; opacity: 0.7; }
+        .work-card:hover { transform: translateY(-12px); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6); }
+        .work-card:hover::after { opacity: 1; }
+        .work-card:hover img { transform: scale(1.1); filter: brightness(1); }
+        .work-card.hidden { display: none !important; }
+
+        /* --- Updated Footer --- */
+        footer{ padding: 40px 0; margin-top: 80px; border-top: 1px solid rgba(255,255,255,0.05); background: var(--bg); }
+        .footer-inner { max-width: var(--container); margin: 0 auto; padding: 0 28px; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { font-size: 20px; font-weight: 900; color: var(--accent-cyan); line-height: 1.2; }
+        .footer-menu a { color: var(--muted); margin-left: 20px; font-size: 15px; font-weight: 600; }
+        .footer-menu a:hover { color: var(--accent-purple); }
+        .copyright { color: var(--muted); font-size: 14px; margin-top: 20px; text-align: center; }
+
+        @media (max-width: 768px){
+            .footer-inner { flex-direction: column; text-align: center; gap: 20px; }
+            .footer-menu a { margin: 0 10px; }
         }
 
-        /* ======================================================================
-           CUTE & SOFT DOT WAVE PRELOADER STYLES (COPIED FROM INDEX)
-           ====================================================================== */
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Soft, gentle background */
-            background: linear-gradient(135deg, #f0e6ff, #fff8fa); 
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 1;
-            /* Slower transition for a more satisfying reveal */
-            transition: opacity 1.2s cubic-bezier(0.8, 0, 1, 1); 
-        }
-        .preloader.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Dot Wave Container */
-        .dot-wave {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 40px;
-        }
-
-        /* Individual Dot Styling */
-        .dot-wave div {
-            width: 12px; /* Slightly larger dot */
-            height: 12px;
-            margin: 0 6px; /* Increased margin */
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(127, 91, 255, 0.5); /* Subtle glow */
-            background: var(--accent-purple); /* Soft purple dot */
-            animation: soft-wave 1.5s infinite ease-in-out alternate;
-        }
-
-        /* Pink Accent Dot */
-        .dot-wave div:nth-child(3) {
-            background: var(--accent-pink); /* Pink dot in the middle */
-            box-shadow: 0 0 8px rgba(255, 138, 226, 0.7); /* Pink glow */
-        }
-        
-        /* Staggered Delay for the Wave Effect */
-        .dot-wave div:nth-child(1) { animation-delay: 0.0s; }
-        .dot-wave div:nth-child(2) { animation-delay: 0.2s; }
-        .dot-wave div:nth-child(3) { animation-delay: 0.4s; }
-        .dot-wave div:nth-child(4) { animation-delay: 0.6s; }
-        .dot-wave div:nth-child(5) { animation-delay: 0.8s; }
-
-        /* Wave Animation Keyframes: Subtle vertical bounce */
-        @keyframes soft-wave {
-            0% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(-12px); opacity: 0.6; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-        
-        /* Optional: Gentle text for a soft feel */
-        .loading-text {
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            color: var(--accent-purple);
-            font-weight: 600;
-            margin-top: 20px;
-            letter-spacing: 1px;
-        }
+        /* Animations */
+        .fade-up{ opacity: 0; transform: translateY(20px); transition: 0.8s ease; }
+        .is-visible{ opacity: 1; transform: none; }
+        .preloader { position: fixed; inset: 0; background: #f0e6ff; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 1s ease; }
+        .preloader.fade-out { opacity: 0; pointer-events: none; }
+        .dot-wave { display: flex; gap: 8px; }
+        .dot-wave div { width: 12px; height: 12px; border-radius: 50%; background: var(--accent-purple); animation: wave 1s infinite ease-in-out alternate; }
+        @keyframes wave { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
     </style>
 </head>
-<body>
+<body class="no-scroll">
 
     <div id="preloader" class="preloader">
-        <div class="dot-wave">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <div class="loading-text">Loading Assets...</div>
+        <div class="dot-wave"><div></div><div></div><div></div><div></div><div></div></div>
+        <div style="margin-top:20px; color:var(--accent-purple); font-weight:700;">Loading Projects...</div>
     </div>
     
-    <div class="bg-anim" aria-hidden="true"></div>
+    <div class="bg-anim"></div>
 
-    <header class="site" role="banner">
+    <header class="site">
         <div class="nav">
             <div class="nav-left">
                 <div style="display:flex; flex-direction:column; line-height:1">
-                    <div class="nav-name">Zhino Salam</div> <br>
+                    <div class="nav-name">Zhino Salam</div>
+                    <br>
                     <div class="nav-role">UI/UX Design Engineer</div>
                 </div>
             </div>
-            
-            <button class="mobile-menu-toggle" aria-label="Open menu" id="menuToggle">
+
+            <button class="mobile-menu-toggle" id="menuToggle">
                 <i class="fa-solid fa-bars" id="menuIcon"></i>
             </button>
-            
-            <nav class="menu desktop-menu" aria-label="Main menu">
-                <a href="index.html#home">Home</a>
-                <a href="index.html#what">What I Do</a>
-                <a href="#work" class="active">Work</a>
-                <a href="index.html#skills">Tools</a>
-                <a href="index.html#contact">Contact</a>
-            </nav>
 
-            <nav class="menu mobile-overlay" aria-label="Mobile navigation" id="mobileMenu">
-                <a href="index.html#home">Home</a>
-                <a href="index.html#what">What I Do</a>
-                <a href="#work" class="active">Work</a>
+            <nav class="menu desktop-menu">
+                <a href="index.html">Home</a>
+                <a href="all-work.html" class="active">Work</a> 
                 <a href="index.html#skills">Tools</a>
                 <a href="index.html#contact">Contact</a>
             </nav>
         </div>
     </header>
 
-    <div class="wrap" role="main">
+    <nav class="menu mobile-overlay" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="all-work.html">Work</a> 
+        <a href="index.html#skills">Tools</a>
+        <a href="index.html#contact">Contact</a>
+    </nav>
 
-        <section id="work" class="full" style="padding-bottom: 0;">
-            <div class="section-inner">
-                
-                <div class="page-header text-left fade-up">
-                    <div class="breadcrumb">
-                        <a href="index.html">Home</a> / <span>All Projects</span>
-                    </div>
-                    <h1 style="transition-delay: 0.1s;">My Complete Work Archive</h1>
-                    <p style="transition-delay: 0.2s;">A detailed look at my recent UI/UX and visual design projects, ranging from large-scale web platforms to focused branding efforts.</p>
-                </div>
-                
-                <div class="filter-bar fade-up" style="transition-delay: 0.3s;">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="ui-ux">UI/UX Design</button>
-                    <button class="filter-btn" data-filter="web-dev">Web Dev / Frontend</button>
-                    <button class="filter-btn" data-filter="branding">Branding</button>
-                    <button class="filter-btn" data-filter="icons">Iconography</button>
-                </div>
-
+    <div class="wrap">
+        <section>
+            <div class="fade-up" style="margin-bottom: 40px;">
+                <h1 style="font-size: 64px; font-weight: 900; letter-spacing: -3px; margin: 0; color: var(--accent-pink);">Projects<span style="color:white">.</span></h1>
+                <p style="color: var(--muted); font-size: 18px; margin-top: 10px;">A collection of digital experiences crafted with precision.</p>
             </div>
-        </section>
+            
+            <div class="filter-bar fade-up">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="ui-ux">UI/UX Design</button>
+                <button class="filter-btn" data-filter="branding">Branding</button>
+            </div>
 
-        <section class="full" style="padding-top: 20px; padding-bottom: 100px;">
-            <div class="section-inner">
-                
-                <div class="works-grid fade-up stagger-delay">
-                    
-                    <div class="work-card" style="--delay: 0.1s;" data-category="ui-ux">
-                        <a href="project-detail.html"> <img src="images/meow.png" alt="Project 1: Fintech App Redesign"> <br>
+            <div class="works-grid">
+                <div class="work-card fade-up" data-category="ui-ux">
+                    <a href="project-detail.html">
+                        <div class="work-img-container">
+                            <div class="glass-badge"><i class="fas fa-circle"></i> UI/UX // 2025</div>
+                            <img src="images/meow.png" alt="Project">
+                        </div>
+                        <div class="work-details">
                             <h3>Fintech App Redesign</h3>
-                            <p>Full UX audit and modern UI/UX for a banking application.</p>
-                        </a>
-                    </div>
-                    
-                    <div class="work-card" style="--delay: 0.2s;" data-category="branding web-dev">
-                        <a href="project-detail-1.html"> <img src="images/mad.png" alt="Şîn UX Agency"> <br>
-                            <h3>Şîn UX Agency — Visual System</h3>
-                            <p>Brand + website focused on conversions.</p>
-                        </a>
-                    </div>
+                            <p>Deep-dive audit and interface design for a modern banking solution.</p>
+                        </div>
+                    </a>
+                </div>
 
-                    <div class="work-card" style="--delay: 0.3s;" data-category="icons">
-                        <a href="project-detail.html"> <img src="images/app.png" alt="Ari Gaming Icon Pack"> <br>
-                            <h3>Ari Gaming — Icon Pack</h3>
-                            <p>Custom icon system and banners for a major tournament.</p>
-                        </a>
-                    </div>
+                <div class="work-card fade-up" data-category="branding">
+                    <a href="project-detail-1.html">
+                        <div class="work-img-container">
+                            <div class="glass-badge" style="color:var(--accent-purple)"><i class="fas fa-circle" style="color:var(--accent-purple)"></i> BRANDING // 2025</div>
+                            <img src="images/mad.png" alt="Project">
+                        </div>
+                        <div class="work-details">
+                            <h3>Şîn UX Agency</h3>
+                            <p>Visual identity and design system for a conversion-focused agency.</p>
+                        </div>
+                    </a>
+                </div>
 
-                    <div class="work-card" style="--delay: 0.4s;" data-category="branding ui-ux">
-                        <a href="project-detail-3.html"> <img src="https://picsum.photos/600/400?random=9" alt="Kurdistan Animal Sanctuary"> <br>
-                            <h3>Kurdistan Animal Sanctuary</h3>
-                            <p>Branding and UI for adoption platform.</p>
-                        </a>
-                    </div>
-                    
-                    <div class="work-card" style="--delay: 0.5s;" data-category="ui-ux">
-                        <a href="project-detail-5.html"> <img src="https://picsum.photos/600/400?random=10" alt="Ecommerce Checkout Flow Optimization"> <br>
-                            <h3>E-commerce Checkout Optimization</h3>
-                            <p>A/B testing and flow redesign to boost conversion rates.</p>
-                        </a>
-                    </div>
-                    
-                    <div class="work-card" style="--delay: 0.6s;" data-category="ui-ux">
-                        <a href="project-detail-6.html"> <img src="https://picsum.photos/600/400?random=11" alt="Local Cuisine Blog Template"> <br>
-                            <h3>Local Cuisine Blog Template</h3>
-                            <p>Visual design for a food and travel content platform.</p>
-                        </a>
-                    </div>
-                    
+                <div class="work-card fade-up" data-category="ui-ux">
+                    <a href="#">
+                        <div class="work-img-container">
+                            <div class="glass-badge" style="color:var(--accent-pink)"><i class="fas fa-circle" style="color:var(--accent-pink)"></i> INTERFACE // 2024</div>
+                            <img src="images/app.png" alt="Project">
+                        </div>
+                        <div class="work-details">
+                            <h3>Ari Icon Library</h3>
+                            <p>Custom 3D iconography and asset kit for mobile gaming interfaces.</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
-
-        <section class="full" style="padding-top: 0;">
-            <div class="section-inner text-center">
-                <h2 class="fade-up" style="color:var(--accent-purple); margin-bottom:10px">Ready to start a project?</h2>
-                <p class="fade-up" style="color:var(--muted); margin-bottom:30px">Send me a message to discuss your design needs.</p>
-                 <a href="index.html#contact" class="btn primary fade-up">
-                    Get in Touch
-                </a>
-            </div>
-        </section>
-        
     </div> 
     
     <footer>
-        <div class="neon-footer">
-            <div class="footer-links">
-                
-                <a class="footer-pill" href="mailto:Zhinosalam188@gmail.com">
-                    <i class="fa-solid fa-envelope"></i> Zhinosalam188@gmail.com
-                </a>
-                
-                <a class="footer-pill" href="tel:+9647505361079">
-                    📞 +964 750 536 1079
-                </a>
-                
-                <div class="footer-pill">
-                    📍 Erbil, Kurdistan
-                </div>
-
+        <div class="footer-inner">
+            <div class="footer-logo">
+                Zhino Salam<br>
+                <span style="font-size:12px; font-weight: 600; color:var(--muted)">UI/UX Design Engineer</span>
             </div>
-            
-            <div class="copyright">
-                © 2025 • Zhino Salam — UI/UX Design Engineer
-            </div>
+            <nav class="footer-menu">
+                <a href="index.html">Home</a>
+                <a href="all-work.html">Work</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
         </div>
+        <p class="copyright">© 2026 Zhino Salam. All rights reserved.</p>
     </footer>
 
     <script>
-        // Get the body element
-        const body = document.body;
-
-        // Menu Toggle functionality for mobile
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuIcon = document.getElementById('menuIcon');
-        
-        // Function to toggle menu state
-        function toggleMenu() {
-            const isOpen = mobileMenu.classList.toggle('is-open');
-            // Change icon from hamburger to X and update accessibility
-            menuIcon.classList.toggle('fa-bars');
-            menuIcon.classList.toggle('fa-xmark');
-            menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-        }
-
-        // 1. Toggle when button is clicked
-        if (menuToggle) {
-            menuToggle.addEventListener('click', toggleMenu);
-        }
-        
-        // 2. Close menu when a link inside the menu is clicked 
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function (e) {
-                // Check if the link points to a hash (#) on the current page
-                const href = this.getAttribute('href');
-                if (href.startsWith('#')) {
-                    e.preventDefault();
-                    document.querySelector(href).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-                
-                // Close menu if it's open, regardless of hash or external link
-                if (mobileMenu.classList.contains('is-open')) {
-                    toggleMenu(); 
-                }
-            });
-        });
-
-        // Simple Intersection Observer for Fade-Up animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    // Stop observing once visible to prevent re-triggering
-                    observer.unobserve(entry.target); 
-                }
-            });
-        }, {
-            threshold: 0.1, // Element is visible when 10% is in the viewport
-            rootMargin: '0px 0px -50px 0px' // Load elements slightly early
-        });
-
-        document.querySelectorAll('.fade-up').forEach(element => {
-            observer.observe(element);
-        });
-        
-        
-        // ======================================================================
-        // JAVASCRIPT: CATEGORY FILTERING LOGIC
-        // ======================================================================
-        
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const workCards = document.querySelectorAll('.work-card');
-
-        // Function to handle filtering
-        function filterProjects(filter) {
-            workCards.forEach(card => {
-                const categories = card.getAttribute('data-category');
-                
-                // If filter is 'all' OR the card's categories string contains the filter
-                if (filter === 'all' || (categories && categories.includes(filter))) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-        }
-
-        // Event listener for filter buttons
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const filterValue = this.getAttribute('data-filter');
-
-                // 1. Remove active class from all buttons and add to the clicked one
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-
-                // 2. Perform the filtering
-                filterProjects(filterValue);
-            });
-        });
-        
-        // Ensure the 'All' filter is applied on initial load if the button exists
-        document.addEventListener('DOMContentLoaded', () => {
-             const allButton = document.querySelector('.filter-btn.active');
-             if (allButton) {
-                 filterProjects(allButton.getAttribute('data-filter'));
-             }
-        });
-
-        // ======================================================================
-        // PRELOADER LOGIC (Cute & Soft Dot Wave)
-        // ======================================================================
-        const preloader = document.getElementById('preloader');
-
-        function fadeOutPreloader() {
-            if (preloader) {
-                // Start the smooth fade-out
-                preloader.classList.add('fade-out');
-                
-                // Wait for the transition to finish, then hide/remove the preloader
-                preloader.addEventListener('transitionend', function() {
-                    preloader.style.display = 'none';
-                    // Re-enable scrolling
-                    body.classList.remove('no-scroll');
-                });
-            }
-        }
-        
-        // Main Preloader Sequence
-        document.addEventListener('DOMContentLoaded', () => {
-            // Lock scroll during loading
-            body.classList.add('no-scroll'); 
-            
-            // Wait for all resources (images, etc.) to load
-            window.addEventListener('load', () => {
-                // Delay fade-out slightly to ensure the animation is seen for a moment
-                setTimeout(fadeOutPreloader, 400); 
-            });
-
-            // FALLBACK: If the 'load' event takes too long, 
-            // force the fade-out after a maximum time limit.
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preloader
+            const preloader = document.getElementById('preloader');
             setTimeout(() => {
-                if(preloader.style.opacity !== '0' && preloader.style.display !== 'none') {
-                    console.log("Preloader fallback triggered.");
-                    fadeOutPreloader();
-                }
-            }, 3000); // Max 3 seconds display time for the preloader
+                preloader.classList.add('fade-out');
+                document.body.classList.remove('no-scroll');
+                initAnimations();
+            }, 800);
+
+            // Mobile Menu
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+
+            menuToggle.addEventListener('click', () => {
+                const isOpen = mobileMenu.classList.toggle('is-open');
+                menuIcon.classList.toggle('fa-bars', !isOpen);
+                menuIcon.classList.toggle('fa-xmark', isOpen);
+                document.body.classList.toggle('no-scroll', isOpen);
+            });
+
+            // Animations
+            function initAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+            }
+
+            // Filtering
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const workCards = document.querySelectorAll('.work-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.getAttribute('data-filter');
+
+                    workCards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        if (filter === 'all' || category === filter) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
         });
     </script>
 </body>
