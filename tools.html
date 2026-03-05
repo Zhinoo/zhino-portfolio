@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Arsenal — Zhino Salam</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        /* ======================================================================
+           1. DESIGN SYSTEM (SYNCED WITH HOME)
+           ====================================================================== */
+        :root{
+            --bg: #05040a;             
+            --card: rgba(255, 255, 255, 0.05); 
+            --muted: #bfc6d1;          
+            --text-light: #eef2ff;     
+            --text-dark: #08102a;      
+            --accent-purple: #7F5BFF;    
+            --accent-cyan: #00D1FF;      
+            --accent-pink: #FF8AE2;      
+            --radius-large: 20px;
+            --radius-pill: 999px;
+            --container: 1200px;
+        }
+
+        /* Base Reset */
+        *, *::before, *::after {box-sizing: border-box;}
+        body{
+            margin: 0; 
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, var(--bg), #090513); 
+            color: var(--text-light); 
+            line-height: 1.5;
+        }
+
+        /* Animated Background (Matched to Home) */
+        .bg-anim{
+            position: fixed; inset: 0; z-index: -5; pointer-events: none;
+            background: radial-gradient(600px 600px at 10% 10%, var(--accent-cyan) 0.08, transparent 8%),
+                        radial-gradient(600px 600px at 90% 90%, var(--accent-purple) 0.06, transparent 10%),
+                        var(--bg); 
+            filter: blur(14px);
+            animation: bgFloat 14s linear infinite alternate;
+        }
+        @keyframes bgFloat { from { transform: translateY(0) } to { transform: translateY(-30px) } }
+
+        /* Fade Animation */
+        .fade-up{ opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+        .is-visible{ opacity: 1; transform: none; }
+
+        /* ======================================================================
+           2. HEADER & NAV (EXACT COPY FROM HOME)
+           ====================================================================== */
+        header.site{ position: fixed; top: 18px; left: 0; right: 0; z-index: 60; }
+        .nav{
+            max-width: var(--container); margin: 0 auto; 
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            padding: 10px 18px; border-radius: 14px;
+        }
+        .nav-name{font-weight: 800; font-size: 18px; color: var(--accent-cyan);}
+        .nav-role{font-size: 12px; color: var(--muted);}
+        
+        nav.menu a{padding: 8px 10px; border-radius: 8px; color: var(--muted); font-weight: 600; text-decoration: none;}
+        nav.menu a:hover, nav.menu a.active{color: var(--accent-cyan); background: rgba(0, 209, 255, 0.08);}
+
+        .mobile-menu-toggle { display: none; background: none; border: none; color: var(--text-light); font-size: 24px; cursor: pointer; }
+        nav.menu.mobile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg); z-index: 65; flex-direction: column; justify-content: center; align-items: center; gap: 30px; transform: translateX(100%); transition: transform 0.4s ease-in-out; display: flex; }
+        nav.menu.mobile-overlay.is-open { transform: translateX(0); }
+
+        /* ======================================================================
+           3. TOOLS CONTENT STYLES
+           ====================================================================== */
+        .wrap{ max-width: var(--container); margin: 0 auto; padding: 140px 28px 80px; }
+        
+        .tools-header { margin-bottom: 60px; text-align: left; }
+        .tools-header h1 { font-size: 48px; font-weight: 900; margin-bottom: 15px; }
+        .tools-header h1 span { color: var(--accent-cyan); }
+
+        .category-label {
+            font-size: 12px; text-transform: uppercase; letter-spacing: 3px;
+            color: var(--accent-purple); margin: 60px 0 30px;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .category-label::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+
+        .tool-card {
+            background: var(--card); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px; padding: 35px; display: flex; align-items: center; gap: 20px;
+            backdrop-filter: blur(10px); transition: 0.3s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-8px); border-color: var(--accent-cyan);
+            box-shadow: 0 0 40px rgba(0, 209, 255, 0.15);
+        }
+
+        .tool-icon { width: 60px; height: 60px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .tool-icon img { width: 100%; height: auto; }
+        .tool-icon i { font-size: 45px; color: var(--accent-pink); }
+
+        .tool-info h4 { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; }
+        .tool-info p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+        .master-badge { font-size: 10px; background: var(--accent-cyan); color: var(--text-dark); padding: 2px 10px; border-radius: 50px; font-weight: 900; }
+
+        /* ======================================================================
+           4. PRELOADER & FOOTER
+           ====================================================================== */
+        .preloader { position: fixed; inset: 0; background: #f0e6ff; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 1.2s; }
+        .preloader.fade-out { opacity: 0; pointer-events: none; }
+        .dot-wave { display: flex; gap: 6px; }
+        .dot-wave div { width: 12px; height: 12px; border-radius: 50%; background: var(--accent-purple); animation: wave 1.5s infinite alternate; }
+        @keyframes wave { 0% { transform: translateY(0); } 100% { transform: translateY(-12px); } }
+
+        footer { padding: 60px 28px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .footer-logo { font-size: 20px; font-weight: 900; color: var(--accent-cyan); margin-bottom: 20px; }
+        .copyright { color: var(--muted); font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle { display: block; }
+            .desktop-menu { display: none; }
+            .tools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader" class="preloader">
+        <div class="dot-wave">
+            <div style="animation-delay: 0s"></div>
+            <div style="animation-delay: 0.2s; background: var(--accent-pink)"></div>
+            <div style="animation-delay: 0.4s"></div>
+        </div>
+        <div style="margin-top:20px; color:var(--accent-purple); font-weight:600;">Loading Assets...</div>
+    </div>
+
+    <div class="bg-anim"></div>
+
+    <header class="site">
+        <div class="nav">
+            <div class="nav-left">
+                <div style="display:flex; flex-direction:column; line-height:1">
+                    <div class="nav-name">Zhino Salam</div>
+                    <div class="nav-role">UI/UX Design Engineer</div>
+                </div>
+            </div>
+
+            <button class="mobile-menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+
+            <nav class="menu desktop-menu">
+                <a href="index.html#home">Home</a>
+                <a href="all-work.html">Work</a> 
+                <a href="arsenal.html" class="active">Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+
+            <nav class="menu mobile-overlay" id="mobileMenu">
+                <a href="index.html#home">Home</a>
+                <a href="all-work.html">Work</a> 
+                <a href="arsenal.html">Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="wrap">
+        
+        <header class="tools-header fade-up">
+            <h1>Specialized <span>Arsenal.</span></h1>
+            <p>The specialized ecosystem I use to craft high-impact digital experiences.</p>
+        </header>
+
+        <div class="category-label fade-up">Interface & Product Design</div>
+        <div class="tools-grid">
+            <div class="tool-card fade-up">
+                <div class="tool-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg"></div>
+                <div class="tool-info">
+                    <h4>Figma <span class="master-badge">Master</span></h4>
+                    <p>Design systems, variable logic, and interactive prototypes.</p>
+                </div>
+            </div>
+            <div class="tool-card fade-up">
+                <div class="tool-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sketch/sketch-original.svg"></div>
+                <div class="tool-info">
+                    <h4>Sketch & XD</h4>
+                    <p>Professional vector-based interface architecture.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-label fade-up">Branding & Visual Arts</div>
+        <div class="tools-grid">
+            <div class="tool-card fade-up">
+                <div class="tool-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/illustrator/illustrator-original.svg"></div>
+                <div class="tool-info">
+                    <h4>Illustrator</h4>
+                    <p>Precision branding, typography, and logo engineering.</p>
+                </div>
+            </div>
+            <div class="tool-card fade-up">
+                <div class="tool-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg"></div>
+                <div class="tool-info">
+                    <h4>Photoshop</h4>
+                    <p>High-end retouching and digital product mockups.</p>
+                </div>
+            </div>
+            <div class="tool-card fade-up">
+                <div class="tool-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/canva/canva-original.svg"></div>
+                <div class="tool-info">
+                    <h4>Canva Pro</h4>
+                    <p>Rapid content creation and marketing templates.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-label fade-up">Artificial Intelligence</div>
+        <div class="tools-grid">
+            <div class="tool-card fade-up">
+                <div class="tool-icon"><i class="fa-solid fa-microchip"></i></div>
+                <div class="tool-info">
+                    <h4>ChatGPT & Gemini</h4>
+                    <p>UX research, technical copy, and logic automation.</p>
+                </div>
+            </div>
+            <div class="tool-card fade-up">
+                <div class="tool-icon"><i class="fa-solid fa-wand-sparkles"></i></div>
+                <div class="tool-info">
+                    <h4>Visual AI</h4>
+                    <p>Midjourney and Adobe Firefly for conceptual assets.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-logo">Zhino Salam</div>
+        <div class="copyright">© 2026 Zhino Salam. Built with passion and code.</div>
+    </footer>
+
+    <script>
+        // Preloader Logic
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.classList.add('fade-out');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Mobile Menu Logic (Matched to Home)
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('is-open');
+        });
+
+        // Fade Up Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
