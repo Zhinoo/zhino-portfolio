@@ -6,13 +6,9 @@
     <title>Şîn UX Agency — Visual System Case Study</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     <style>
-        /* ==========================================================
-           1. DESIGN SYSTEM (VARIABLES)
-           (Keep all your :root variables here for consistency)
-           ========================================================== 
-        */
         :root{
             --bg: #05040a;             
             --card: rgba(255, 255, 255, 0.05); 
@@ -22,519 +18,264 @@
             --accent-purple: #7F5BFF;    
             --accent-cyan: #00D1FF;      
             --accent-pink: #FF8AE2;      
-            
             --radius-default: 16px;
             --radius-large: 20px;
             --radius-pill: 999px;
             --container: 1200px;
         }
 
-        /* ==========================================================
-           2. BASE STYLES & LAYOUT
-           (Copy all common styles, including the fixed header setup)
-           ========================================================== 
-        */
         *, *::before, *::after {box-sizing: border-box;}
         html, body{height: 100%;}
         body{
-            margin: 0; 
-            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0; font-family: 'Inter', system-ui, sans-serif;
             background: linear-gradient(180deg, var(--bg), #090513); 
-            color: var(--text-light); 
-            line-height: 1.6;
-            /* Added for preloader logic */
-            transition: overflow .3s ease;
+            color: var(--text-light); line-height: 1.6; transition: overflow .3s ease;
         }
-        /* Added for preloader logic */
-        body.no-scroll {
-            overflow: hidden; 
-        }
+        body.no-scroll { overflow: hidden; }
         
         a{color: inherit; text-decoration: none; transition: color .2s ease;}
-        img{display: block; max-width: 100%;}
+        img{display: block; max-width: 100%; height: auto;}
         h1, h2, h3, h4 {margin: 0; font-weight: 800; color: var(--text-light);}
         
-        .bg-anim{ /* Background */
+        /* Light Paragraph Typography */
+        p {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300; 
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--muted);
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .bg-anim{
             position: fixed; inset: 0; z-index: -5; pointer-events: none;
-            background: radial-gradient(600px 600px at 10% 10%, var(--accent-cyan) 0.08, transparent 8%),
-                        radial-gradient(600px 600px at 90% 90%, var(--accent-purple) 0.06, transparent 10%),
+            background: radial-gradient(600px 600px at 10% 10%, rgba(0, 209, 255, 0.08), transparent),
+                        radial-gradient(600px 600px at 90% 90%, rgba(127, 91, 255, 0.06), transparent),
                         var(--bg); 
             filter: blur(14px);
             animation: bgFloat 14s linear infinite alternate;
         }
         @keyframes bgFloat { from { transform: translateY(0) } to { transform: translateY(-30px) } }
 
-        /* HEADER FIX */
-        header.site{
-            position: fixed; 
-            top: 18px;       
-            left: 0;         
-            right: 0;        
-            z-index: 60;     
-        }
+        header.site{ position: fixed; top: 18px; left: 0; right: 0; z-index: 60; }
         .nav{
-            max-width: var(--container); 
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            max-width: var(--container); margin: 0 auto;
+            background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: space-between;
             padding: 10px 18px; border-radius: 14px;
         }
-        .nav-name{font-weight: 800; font-size: 18px; color: var(--accent-cyan);}
-        .nav-role{font-size: 12px; color: var(--muted);}
-        nav.menu a{padding: 8px 10px; border-radius: 8px; color: var(--muted); font-weight: 600;}
+        .nav-name{font-weight: 800; font-size: 18px; color: var(--accent-cyan); line-height: 1;}
+        .nav-role{font-size: 12px; color: var(--muted); margin-top: 4px;}
+        nav.menu a{padding: 8px 12px; border-radius: 8px; color: var(--muted); font-weight: 600; font-size: 14px;}
         nav.menu a:hover{color: var(--accent-cyan); background: rgba(0, 209, 255, 0.08);}
         
-        /* CONTENT WRAPPER FIX */
-        .wrap{
-            max-width: 1000px; /* Adjusted size for detail page focus */
-            margin: 0 auto; 
-            padding: 0 28px;
-            margin-top: 100px; /* Space for the fixed header */
-        }
-        .section-inner{ max-width: var(--container); margin: 0 auto; padding: 0 24px; }
-        section.full { width: 100%; padding: 80px 0; position: relative; }
-        .text-center { text-align: center; }
+        .wrap{ max-width: 1000px; margin: 0 auto; padding: 0 28px; margin-top: 140px; }
         
-        /* Other Common Styles (Buttons, etc.) */
-        .btn{ /* Button styles */
-            display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; 
-            border-radius: var(--radius-pill); font-weight: 700; cursor: pointer;
-            border: 0; transition: all .2s ease;
+        /* Case Study Meta Grid */
+        .meta-card {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px; padding: 25px; margin: 30px 0 50px; backdrop-filter: blur(10px);
         }
-        .btn.primary{ 
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); 
-            color: var(--text-dark); 
-            box-shadow: 0 12px 30px rgba(0, 209, 255, 0.25);
-        }
-        .btn.ghost{ 
-            background: rgba(255,255,255,0.08); 
-            border: 1px solid rgba(255,255,255,0.15); 
-            color: var(--accent-cyan); 
-            backdrop-filter: blur(8px);
-        }
-        .btn:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0, 209, 255, 0.4); }
+        .meta-item { display: flex; flex-direction: column; gap: 4px; }
+        .meta-label { font-size: 10px; text-transform: uppercase; color: var(--accent-purple); font-weight: 800; letter-spacing: 1px; }
+        .meta-value { font-size: 15px; font-weight: 600; color: #fff; }
 
-        /* CONTACT FORM STYLES */
-        .contact-grid{ display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; margin-top: 30px; }
-        .contact-card{ 
-            background: rgba(255, 255, 255, 0.05);
-            padding: 24px; border-radius: var(--radius-large); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 0 30px rgba(0,0,0,0.4); 
-            backdrop-filter: blur(10px);
-        }
-        .contact-card label{ display: block; font-weight: 700; margin-bottom: 8px; color: var(--accent-purple); }
-        .contact-card input, .contact-card textarea{ 
-            width: 100%; padding: 12px; border-radius: 8px; 
-            border: 1px solid rgba(255,255,255,0.15); 
-            background: rgba(0,0,0,0.3); margin-bottom: 12px;
-            color: var(--text-light);
-        }
-        .contact-card input:focus, .contact-card textarea:focus{ 
-            border-color: var(--accent-cyan); outline: none; 
-            box-shadow: 0 0 8px var(--accent-cyan) 0.5;
-        }
-        .phone { font-family: 'Anonymous Pro', monospace; color: var(--accent-cyan); font-weight: 700; }
-        
-        /* --- 11. Footer (New Neon Contact Bar Style) --- */
-        footer{ 
-            padding: 30px 0; 
-            margin-top: 80px; 
-            border-top: 1px solid rgba(255,255,255,0.05);
-            background: #06040e; 
-        }
-        .neon-footer {
-            max-width: var(--container); 
-            margin: 0 auto; 
-            padding: 0 28px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center;
-            gap: 20px;
-        }
-        .footer-links {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding-bottom: 20px;
-        }
-        .footer-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border-radius: var(--radius-pill);
-            background: rgba(127, 91, 255, 0.05); 
-            border: 1px solid var(--accent-purple);
-            color: var(--accent-purple);
-            font-weight: 700;
-            font-size: 15px;
-            transition: all .3s ease;
-            box-shadow: 0 0 10px rgba(127, 91, 255, 0.15); 
-        }
-        .footer-pill:hover {
-            background: rgba(127, 91, 255, 0.15);
-            color: var(--text-light);
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(127, 91, 255, 0.4);
-        }
-        .copyright {
-            color: var(--muted);
-            font-size: 14px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            width: 100%;
-        }
+        .back-link { display: inline-block; margin-bottom: 15px; font-weight: 600; color: var(--accent-cyan); font-size: 14px; }
+        .project-hero h1 { font-size: clamp(32px, 5vw, 48px); line-height: 1.1; margin-bottom: 15px; }
 
-
-        /* ==========================================================
-           3. PROJECT DETAIL SPECIFIC STYLES
-           ========================================================== 
-        */
-        .back-link {
-            display: inline-block;
-            margin: 0 0 20px;
-            font-weight: 600;
-            color: var(--accent-cyan);
-            transition: color 0.2s;
-        }
-        .back-link:hover { color: var(--accent-purple); }
-
-        .project-hero {
-            padding: 0 0 50px; 
-        }
-        .project-hero h1 {
-            font-size: 48px;
-            font-weight: 900;
-            color: var(--text-light);
-            margin-bottom: 10px;
-        }
-        .project-hero p.meta {
-            color: var(--accent-pink);
-            font-weight: 700;
-            margin-bottom: 40px;
-        }
         .main-image-container {
-            width: 100%;
-            background: rgba(127, 91, 255, 0.05); 
-            border-radius: var(--radius-large);
-            padding: 10px;
-            margin-bottom: 50px;
-            box-shadow: 0 0 40px rgba(127, 91, 255, 0.2);
-            overflow: hidden;
+            width: 100%; background: rgba(255, 255, 255, 0.02); 
+            border-radius: var(--radius-large); padding: 12px; margin-bottom: 60px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
         }
-        .main-image-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: calc(var(--radius-large) - 5px);
-        }
-        .detail-section {
-            padding: 40px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .detail-section h2 {
-            font-size: 32px;
-            color: var(--accent-cyan);
-            margin-bottom: 20px;
-        }
-        .detail-section p, .detail-section ul {
-            color: var(--muted);
-            font-size: 17px;
-            max-width: 750px;
-        }
-        .detail-section ul {
-            padding-left: 20px;
-        }
-        .detail-section strong {
-            color: var(--text-light);
-        }
-        .detail-section img {
-            margin: 30px 0;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-        }
+        .main-image-container img { border-radius: 12px; width: 100%; }
+
+        .detail-section { padding: 60px 0; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .detail-section h2 { font-size: 28px; color: var(--accent-cyan); margin-bottom: 20px; letter-spacing: -0.02em; }
         
-        /* Responsive Adjustments */
-        @media (max-width: 980px){
-            .contact-grid{ grid-template-columns: 1fr; }
+        /* Strategy Grid */
+        .strategy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 60px; }
+        .strategy-box { background: rgba(255,255,255,0.02); padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
+        .strategy-box h3 { font-size: 18px; color: var(--accent-pink); margin-bottom: 10px; }
+
+        /* Contact & Buttons */
+        .btn{ display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: var(--radius-pill); font-weight: 700; cursor: pointer; border: 0; transition: 0.3s; }
+        .btn.primary{ background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); color: var(--text-dark); }
+        .btn.ghost{ background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; }
+        .btn:hover{ transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0, 209, 255, 0.3); }
+
+        .contact-grid{ display: grid; grid-template-columns: 1fr 320px; gap: 24px; margin-top: 40px; }
+        .contact-card{ background: rgba(255, 255, 255, 0.03); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); }
+        .contact-card input, .contact-card textarea{ 
+            width: 100%; padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(0,0,0,0.2); color: #fff; margin-bottom: 15px; font-family: inherit;
         }
 
-        /* ======================================================================
-           CUTE & SOFT DOT WAVE PRELOADER STYLES (COPIED FROM INDEX)
-           ====================================================================== */
+        /* Preloader */
         .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Soft, gentle background */
-            background: linear-gradient(135deg, #f0e6ff, #fff8fa); 
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 1;
-            /* Slower transition for a more satisfying reveal */
-            transition: opacity 1.2s cubic-bezier(0.8, 0, 1, 1); 
+            position: fixed; inset: 0; background: #05040a; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease;
         }
-        .preloader.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Dot Wave Container */
-        .dot-wave {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 40px;
-        }
-
-        /* Individual Dot Styling */
-        .dot-wave div {
-            width: 12px; /* Slightly larger dot */
-            height: 12px;
-            margin: 0 6px; /* Increased margin */
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(127, 91, 255, 0.5); /* Subtle glow */
-            background: var(--accent-purple); /* Soft purple dot */
-            animation: soft-wave 1.5s infinite ease-in-out alternate;
-        }
-
-        /* Pink Accent Dot */
-        .dot-wave div:nth-child(3) {
-            background: var(--accent-pink); /* Pink dot in the middle */
-            box-shadow: 0 0 8px rgba(255, 138, 226, 0.7); /* Pink glow */
-        }
-        
-        /* Staggered Delay for the Wave Effect */
-        .dot-wave div:nth-child(1) { animation-delay: 0.0s; }
+        .preloader.fade-out { opacity: 0; pointer-events: none; }
+        .dot-wave { display: flex; gap: 8px; }
+        .dot-wave div { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-purple); animation: soft-wave 1.5s infinite ease-in-out alternate; }
         .dot-wave div:nth-child(2) { animation-delay: 0.2s; }
-        .dot-wave div:nth-child(3) { animation-delay: 0.4s; }
-        .dot-wave div:nth-child(4) { animation-delay: 0.6s; }
-        .dot-wave div:nth-child(5) { animation-delay: 0.8s; }
+        .dot-wave div:nth-child(3) { animation-delay: 0.4s; background: var(--accent-pink); }
+        @keyframes soft-wave { from { transform: translateY(0); } to { transform: translateY(-12px); } }
 
-        /* Wave Animation Keyframes: Subtle vertical bounce */
-        @keyframes soft-wave {
-            0% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(-12px); opacity: 0.6; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-        
-        /* Optional: Gentle text for a soft feel */
-        .loading-text {
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            color: var(--accent-purple);
-            font-weight: 600;
-            margin-top: 20px;
-            letter-spacing: 1px;
+        footer { padding: 60px 0 30px; background: #020205; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 100px; }
+        .footer-pill { padding: 10px 20px; border-radius: 100px; border: 1px solid var(--accent-purple); color: var(--accent-purple); font-weight: 700; font-size: 14px; transition: 0.3s; }
+        .footer-pill:hover { background: var(--accent-purple); color: #fff; }
+
+        @media (max-width: 768px) {
+            .meta-card { grid-template-columns: 1fr 1fr; gap: 20px; }
+            .strategy-grid, .contact-grid { grid-template-columns: 1fr; }
+            nav.menu { display: none; }
         }
     </style>
 </head>
 <body>
 
 <div id="preloader" class="preloader">
-    <div class="dot-wave">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <div class="loading-text">Loading Assets...</div>
+    <div class="dot-wave"><div></div><div></div><div></div><div></div><div></div></div>
+    <div style="margin-top:20px; color:var(--accent-purple); font-weight:600; letter-spacing:1px; font-size:12px;">LOADING CASE STUDY</div>
 </div>
     
-    <div class="bg-anim" aria-hidden="true"></div>
+<div class="bg-anim"></div>
 
-    <header class="site" role="banner">
-        <div class="nav">
-            <div class="nav-left">
-                <a href="index.html" aria-label="Go to homepage"> </a>
-                <div style="display:flex; flex-direction:column; line-height:1">
-                    <div class="nav-name">Zhino Salam</div> <br>
-                    <div class="nav-role">UI/UX Design Engineer</div>
-                </div>
+<header class="site">
+    <div class="nav">
+        <div class="nav-left">
+            <div class="nav-name">Zhino Salam</div>
+            <div class="nav-role">UI/UX Design Engineer</div>
+        </div>
+        <nav class="menu">
+            <a href="index.html">Home</a>
+            <a href="index.html#work">Work</a>
+            <a href="index.html#skills">Tools</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<div class="wrap" role="main">
+    <div class="project-hero">
+        <a href="index.html#work" class="back-link">← Back to Portfolio</a>
+        <h1>Şîn UX Agency — <span style="color:var(--accent-cyan)">Visual System</span></h1>
+        
+        <div class="meta-card">
+            <div class="meta-item">
+                <span class="meta-label">Role</span>
+                <span class="meta-value">UI/UX Designer</span>
             </div>
-
-            <nav class="menu" aria-label="Main menu">
-                <a href="index.html#home">Home</a>
-                <a href="index.html#what">What I Do</a>
-                <a href="index.html#work">Work</a>
-                <a href="index.html#skills">Tools</a>
-                <a href="#contact">Contact</a> </nav>
-        </div>
-    </header>
-
-    <div class="wrap" role="main">
-        
-        <div class="project-hero">
-            <a href="index.html#work" class="back-link">← Back to Portfolio</a>
-            <h1>Şîn UX Agency — Visual System</h1>
-            <p class="meta">Role: Lead UI/UX Designer | Project Type: Branding & Website Redesign | Duration: 6 Weeks</p>
-        </div>
-        
-        <div class="main-image-container">
-            <img src="https://picsum.photos/1000/600?random=7" alt="Şîn UX Agency main website interface preview">
-        </div>
-        
-        <div class="detail-section">
-            <h2>1. Overview & Challenge</h2>
-            <p>The primary challenge was to create a visual identity for "Şîn UX Agency" that felt both **professional and cutting-edge**, moving away from standard corporate blues. We needed to establish a visual language that highlighted clarity, modern aesthetics, and the use of clean, dark interfaces, leveraging the client's preferred neon aesthetic.</p>
-            <p>Our goal was to **increase client conversions by 30%** by communicating trust and innovation through design.</p>
-        </div>
-
-        <div class="detail-section">
-            <h2>2. Design Process & Solution</h2>
-            <p>The solution centered on a **Dark Glassmorphism** system combined with soft neon accents (Cyan and Purple) for interactive elements. This approach established visual hierarchy and depth.</p>
-            
-            <h3>Key Features Implemented:</h3>
-            <ul>
-                <li>**Neon Accent Color Palette:** Defined a strict palette to ensure accessibility and consistent branding across all digital touchpoints.</li>
-                <li>**Modular Component Library:** Built a Figma library with reusable components for quick iteration.</li>
-                <li>**Typographic Hierarchy:** Used **Inter** for body text (for readability) and **Anonymous Pro** for code samples and technical details.</li>
-            </ul>
-            <img src="https://picsum.photos/800/500?random=10" alt="Wireframe and prototyping example">
-        </div>
-        <section id="contact" class="full">
-            <div class="section-inner">
-                <h2 class="text-center" style="color:var(--accent-purple); margin-bottom:8px">Start your project</h2>
-                <p class="text-center" style="color:var(--muted); margin-bottom:18px">Send a short brief or book time — I usually respond within 24–48h</p>
-
-                <div class="contact-grid">
-                    <form class="contact-card" id="contactForm" onsubmit="return false;">
-                        <label for="cname">Your name</label>
-                        <input id="cname" type="text" placeholder="Name" required>
-
-                        <label for="cemail">Email</label>
-                        <input id="cemail" type="email" placeholder="you@example.com" required>
-
-                        <label for="cmsg">Project brief</label>
-                        <textarea id="cmsg" placeholder="Short description (optional)"></textarea>
-
-                        <div style="display:flex; gap:12px; margin-top:8px;">
-                            <button class="btn primary" id="sendBtn" type="button">Send message</button>
-                            <button class="btn ghost" id="attachBtn" type="button">Attach file</button>
-                        </div>
-                    </form>
-
-                    <aside>
-                        <div class="contact-card">
-                            <strong>Availability</strong>
-                            <p style="color:var(--muted)">Open for freelance & remote work — usually reply within 24–48h.</p>
-                        </div>
-
-                        <div class="contact-card" style="margin-top:16px">
-                            <strong>Contact</strong>
-                            <p style="color:var(--muted)"><span class="phone">📞 +964 750 536 1079</span></p>
-                            <p style="color:var(--muted)">📍 Erbil, Kurdistan</p>
-                            <p style="margin-top:8px"><a href="mailto:shinuiux@outlook.com">shinuiux@outlook.com</a></p>
-                        </div>
-                    </aside>
-                </div>
+            <div class="meta-item">
+                <span class="meta-label">Timeline</span>
+                <span class="meta-value">3 Months</span>
             </div>
-        </section>
-        
-    </div> 
+            <div class="meta-item">
+                <span class="meta-label">Type</span>
+                <span class="meta-value">Hybrid / Agency</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Deliverable</span>
+                <span class="meta-value">Visual System</span>
+            </div>
+        </div>
+    </div>
     
-    <footer>
-        <div class="neon-footer">
-            <div class="footer-links">
-                
-                <a class="footer-pill" href="mailto:Zhinosalam188@gmail.com">
-                    ✉️ Zhinosalam188@gmail.com
-                </a>
-                
-                <a class="footer-pill" href="tel:+9647505361079">
-                    📞 +964 750 536 1079
-                </a>
-                
-                <div class="footer-pill">
-                    📍 Erbil, Kurdistan
-                </div>
-
-            </div>
-            
-            <div class="copyright">
-                © 2025 • Zhino Salam — UI/UX Design Engineer
-            </div>
+    <div class="main-image-container">
+        <img src="images/Shinweb.png" alt="Şîn UX Agency interface preview">
+    </div>
+    
+    <div class="strategy-grid">
+        <div class="strategy-box">
+            <h3>Overall Situation</h3>
+            <p>This project was to create a modern and professional homepage for a new UX agency. The goal was to build a clean interface that makes people trust the company immediately.</p>
         </div>
-    </footer>
+        <div class="strategy-box">
+            <h3>The Challenge</h3>
+            <p>The challenge was to organize a lot of information—like services, portfolio, and process—on one screen without making it look crowded or difficult to navigate.</p>
+        </div>
+    </div>
 
-    <script>
-        // Get the body element
-        const body = document.body;
-
-        // Contact form submission (demo logic)
-        document.getElementById('sendBtn').addEventListener('click', function(){
-            const nameInput = document.getElementById('cname');
-            const emailInput = document.getElementById('cemail');
-            
-            const name = nameInput.value.trim();
-            const email = emailInput.value.trim();
-            
-            if(!name || !email || !emailInput.checkValidity()){ 
-                alert('Please enter a valid name and email.'); 
-                return; 
-            }
-            
-            alert('Thanks ' + name + '! Your message was sent. I will contact you soon.');
-            document.getElementById('contactForm').reset();
-        });
-
-        // Attach file button (demo alert)
-        document.getElementById('attachBtn').addEventListener('click', function(e){
-            e.preventDefault();
-            alert('Attach feature not enabled in demo. You can add file upload when connecting to backend.');
-        });
-
-        // ======================================================================
-        // PRELOADER LOGIC (Cute & Soft Dot Wave)
-        // ======================================================================
-        const preloader = document.getElementById('preloader');
-
-        function fadeOutPreloader() {
-            if (preloader) {
-                // Start the smooth fade-out
-                preloader.classList.add('fade-out');
-                
-                // Wait for the transition to finish, then hide/remove the preloader
-                preloader.addEventListener('transitionend', function() {
-                    preloader.style.display = 'none';
-                    // Re-enable scrolling
-                    body.classList.remove('no-scroll');
-                });
-            }
-        }
+    <div class="detail-section">
+        <h2>Design Process & Solution</h2>
+        <p>I implemented a <strong>Dark Glassmorphism</strong> system. This uses transparent layers and blur effects to create depth while keeping the content at the center of attention.</p>
         
-        // Main Preloader Sequence
-        document.addEventListener('DOMContentLoaded', () => {
-            // Lock scroll during loading
-            body.classList.add('no-scroll'); 
-            
-            // Wait for all resources (images, etc.) to load
-            window.addEventListener('load', () => {
-                // Delay fade-out slightly to ensure the animation is seen for a moment
-                setTimeout(fadeOutPreloader, 400); 
-            });
+        <div style="margin-top:40px;">
+            <h3 style="color:#fff; font-size:18px; margin-bottom:15px;">Key Features:</h3>
+            <ul style="list-style:none; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                <li style="color:var(--muted); font-weight:300;"><i class="fas fa-check" style="color:var(--accent-cyan); margin-right:10px;"></i> Modular Figma Library</li>
+                <li style="color:var(--muted); font-weight:300;"><i class="fas fa-check" style="color:var(--accent-cyan); margin-right:10px;"></i> RTL Optimized Layout</li>
+                <li style="color:var(--muted); font-weight:300;"><i class="fas fa-check" style="color:var(--accent-cyan); margin-right:10px;"></i> Soft Neon Interactions</li>
+                <li style="color:var(--muted); font-weight:300;"><i class="fas fa-check" style="color:var(--accent-cyan); margin-right:10px;"></i> Responsive Architecture</li>
+            </ul>
+        </div>
+    </div>
 
-            // FALLBACK: If the 'load' event takes too long, 
-            // force the fade-out after a maximum time limit.
+    <section id="contact" class="full" style="padding-top:100px;">
+        <h2 style="text-align:center; color:var(--accent-purple); margin-bottom:10px;">Start your project</h2>
+        <p style="text-align:center; margin-bottom:30px;">Send a short brief or book time — I usually respond within 24–48h</p>
+
+        <div class="contact-grid">
+            <form class="contact-card" id="contactForm">
+                <label style="display:block; margin-bottom:8px; font-weight:700; font-size:12px; color:var(--accent-purple);">YOUR NAME</label>
+                <input type="text" placeholder="Name" required>
+
+                <label style="display:block; margin-bottom:8px; font-weight:700; font-size:12px; color:var(--accent-purple);">EMAIL</label>
+                <input type="email" placeholder="you@example.com" required>
+
+                <label style="display:block; margin-bottom:8px; font-weight:700; font-size:12px; color:var(--accent-purple);">PROJECT BRIEF</label>
+                <textarea placeholder="Tell me about your project..." rows="4"></textarea>
+
+                <div style="display:flex; gap:12px;">
+                    <button class="btn primary" type="button">Send message</button>
+                    <button class="btn ghost" type="button"><i class="fas fa-paperclip"></i></button>
+                </div>
+            </form>
+
+            <aside>
+                <div class="contact-card">
+                    <h4 style="margin-bottom:10px; color:var(--accent-cyan);">Availability</h4>
+                    <p style="font-size:14px;">Open for freelance & remote work. Let's build something great.</p>
+                </div>
+                <div class="contact-card" style="margin-top:16px;">
+                    <h4 style="margin-bottom:10px; color:var(--accent-cyan);">Direct Contact</h4>
+                    <p style="font-size:14px; font-family:'Anonymous Pro'; color:var(--accent-pink);">+964 750 536 1079</p>
+                    <p style="font-size:14px;">Erbil, Kurdistan</p>
+                </div>
+            </aside>
+        </div>
+    </section>
+</div> 
+
+<footer>
+    <div class="neon-footer">
+        <div class="footer-links" style="display:flex; gap:15px; margin-bottom:20px;">
+            <a class="footer-pill" href="mailto:Zhinosalam188@gmail.com">Email Me</a>
+            <a class="footer-pill" href="tel:+9647505361079">Call Now</a>
+        </div>
+        <div style="color:var(--muted); font-size:12px; font-weight:300;">
+            © 2026 • Zhino Salam — UI/UX Design Engineer • Crafted in Erbil
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const preloader = document.getElementById('preloader');
+        window.addEventListener('load', () => {
             setTimeout(() => {
-                if(preloader.style.opacity !== '0' && preloader.style.display !== 'none') {
-                    console.log("Preloader fallback triggered.");
-                    fadeOutPreloader();
-                }
-            }, 3000); // Max 3 seconds display time for the preloader
+                preloader.classList.add('fade-out');
+                document.body.classList.remove('no-scroll');
+            }, 600);
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
