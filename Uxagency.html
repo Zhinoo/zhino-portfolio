@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Şîn UX Agency — Visual System Case Study</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        :root{
+            --bg: #05040a;             
+            --card: rgba(255, 255, 255, 0.05); 
+            --muted: #bfc6d1;          
+            --text-light: #eef2ff;     
+            --text-dark: #08102a;
+            --accent-purple: #7F5BFF;    
+            --accent-cyan: #00D1FF;      
+            --accent-pink: #FF8AE2;      
+            --radius-default: 16px;
+            --radius-large: 20px;
+            --radius-pill: 999px;
+            --container: 1000px;
+        }
+
+        *, *::before, *::after {box-sizing: border-box;}
+        html, body{height: 100%; scroll-behavior: smooth;}
+        body{
+            margin: 0; font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(180deg, var(--bg), #090513); 
+            color: var(--text-light); line-height: 1.6;
+        }
+        
+        a{color: inherit; text-decoration: none; transition: color .2s ease;}
+        img{display: block; max-width: 100%; height: auto; border-radius: 12px;}
+        h1, h2, h3, h4 {margin: 0; font-weight: 800; color: var(--text-light);}
+        
+        p {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300; 
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        .bg-anim{
+            position: fixed; inset: 0; z-index: -5; pointer-events: none;
+            background: radial-gradient(600px 600px at 10% 10%, rgba(0, 209, 255, 0.08), transparent),
+                        radial-gradient(600px 600px at 90% 90%, rgba(127, 91, 255, 0.06), transparent),
+                        var(--bg); 
+            filter: blur(14px);
+        }
+
+        header.site{ position: fixed; top: 18px; left: 0; right: 0; z-index: 60; }
+        .nav{
+            max-width: var(--container); margin: 0 auto;
+            background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 18px; border-radius: 14px;
+        }
+        .nav-name{font-weight: 800; font-size: 18px; color: var(--accent-cyan); line-height: 1;}
+        .nav-role{font-size: 12px; color: var(--muted); margin-top: 4px;}
+        nav.menu a{padding: 8px 12px; border-radius: 8px; color: var(--muted); font-weight: 600; font-size: 14px;}
+        nav.menu a:hover{color: var(--accent-cyan); background: rgba(0, 209, 255, 0.08);}
+        
+        .wrap{ max-width: var(--container); margin: 0 auto; padding: 0 24px; margin-top: 140px; }
+        
+        .meta-card {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px; padding: 20px; margin: 30px 0 50px;
+        }
+        .meta-item { display: flex; flex-direction: column; gap: 4px; }
+        .meta-label { font-size: 10px; text-transform: uppercase; color: var(--accent-purple); font-weight: 800; letter-spacing: 1px; }
+        .meta-value { font-size: 14px; font-weight: 600; color: #fff; }
+
+        .main-image-container {
+            width: 100%; background: rgba(255, 255, 255, 0.02); 
+            border-radius: var(--radius-large); padding: 10px; margin-bottom: 60px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .detail-section { padding: 50px 0; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .detail-section h2 { font-size: 24px; color: var(--accent-cyan); margin-bottom: 20px; }
+        
+        .strategy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .strategy-box { background: rgba(255,255,255,0.02); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
+
+        /* TECH STACK */
+        .tools-mini-grid { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 10px; }
+        .tool-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .tool-item i { font-size: 20px; color: var(--muted); transition: 0.3s; }
+        .tool-item:hover i { color: var(--accent-cyan); transform: translateY(-3px); }
+        .tool-item span { font-size: 9px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+
+        /* BRAND IDENTITY */
+        .branding-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; margin-top: 10px; }
+        .brand-item { background: rgba(255,255,255,0.02); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
+        .brand-item h4 { font-size: 10px; text-transform: uppercase; color: var(--accent-purple); margin-bottom: 15px; letter-spacing: 1px; }
+        .color-row { display: flex; gap: 10px; }
+        .swatch { flex: 1; height: 60px; border-radius: 8px; display: flex; align-items: flex-end; padding: 6px; border: 1px solid rgba(255,255,255,0.1); }
+        .swatch span { font-size: 8px; font-family: 'Anonymous Pro'; background: rgba(0,0,0,0.5); padding: 2px 4px; border-radius: 4px; color: #fff; }
+        .type-preview { display: flex; flex-direction: column; gap: 8px; justify-content: center; height: 60px; }
+
+        /* BIG GALLERY */
+        .big-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .gallery-card { border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; transition: 0.3s; }
+        .gallery-card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); }
+
+        .writing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .writing-card { background: rgba(127, 91, 255, 0.03); border: 1px solid rgba(127, 91, 255, 0.1); padding: 25px; border-radius: 16px; }
+        .writing-tag { font-family: 'Anonymous Pro'; font-size: 10px; color: var(--accent-pink); text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+
+        .btn{ display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: var(--radius-pill); font-weight: 700; cursor: pointer; border: 0; transition: 0.3s; }
+        .btn.primary{ background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); color: var(--text-dark); }
+        .btn:hover{ transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 209, 255, 0.2); }
+
+        .contact-grid{ display: grid; grid-template-columns: 1fr 320px; gap: 24px; margin-top: 30px; }
+        .contact-card{ background: rgba(255, 255, 255, 0.03); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); }
+        input, textarea{ width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: #fff; margin-bottom: 12px; font-family: inherit;}
+
+        footer { padding: 60px 0 30px; background: #020205; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 80px; text-align: center;}
+        .footer-pill { padding: 10px 20px; border-radius: 100px; border: 1px solid var(--accent-purple); color: var(--accent-purple); font-weight: 700; font-size: 14px; transition: 0.3s; display: inline-block; margin: 0 5px;}
+        .footer-pill:hover { background: var(--accent-purple); color: #fff; }
+
+        @media (max-width: 768px) {
+            .meta-card, .strategy-grid, .contact-grid, .writing-grid, .big-gallery, .branding-grid { grid-template-columns: 1fr; }
+            nav.menu { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-anim"></div>
+
+<header class="site">
+    <div class="nav">
+        <div class="nav-left">
+            <div class="nav-name">Zhino Salam</div>
+            <div class="nav-role">UI/UX Design Engineer</div>
+        </div>
+        <nav class="menu">
+            <a href="index.html">Home</a>
+            <a href="index.html#work">Work</a>
+            <a href="index.html#skills">Tools</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<div class="wrap" role="main">
+    <div class="project-hero">
+        <a href="index.html#work" style="color:var(--accent-cyan); font-size:14px;">← Back to Portfolio</a>
+        <h1 style="margin-top:15px;">Şîn UX Agency — <span style="color:var(--accent-cyan)">Visual System</span></h1>
+        
+        <div class="meta-card">
+            <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">UI/UX Designer</span></div>
+            <div class="meta-item"><span class="meta-label">Timeline</span><span class="meta-value">3 Months</span></div>
+            <div class="meta-item"><span class="meta-label">Type</span><span class="meta-value">Agency Design</span></div>
+            <div class="meta-item"><span class="meta-label">Output</span><span class="meta-value">Visual System</span></div>
+        </div>
+    </div>
+    
+    <div class="main-image-container">
+        <img src="images/Shinweb.png" alt="Featured Project Preview">
+    </div>
+    
+    <div class="detail-section">
+        <h2>The Challenge & Solution</h2>
+        <div class="strategy-grid">
+            <div class="strategy-box" style="border-left: 4px solid #ff4b4b;">
+                <h3 style="color:#ff4b4b;">The Problem</h3>
+                <p>New agencies often look boring or hard to trust. We needed a look that feels high-end, fast, and very professional from the first second.</p>
+            </div>
+            <div class="strategy-box" style="border-left: 4px solid var(--accent-cyan);">
+                <h3 style="color:var(--accent-cyan);">The Fix</h3>
+                <p>I used "Glassmorphism" and neon colors to make it look futuristic. I also used AI to help keep all the messages short and easy to read.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-section">
+        <h2>Tech Stack</h2>
+        <div class="tools-mini-grid">
+            <div class="tool-item"><i class="fab fa-figma"></i><span>Figma</span></div>
+            <div class="tool-item"><i class="fas fa-pen-nib"></i><span>Illustrator</span></div>
+            <div class="tool-item"><i class="fas fa-layer-group"></i><span>Affinity</span></div>
+            <div class="tool-item"><i class="fas fa-robot"></i><span>Gemini</span></div>
+            <div class="tool-item"><i class="fab fa-behance"></i><span>Behance</span></div>
+            <div class="tool-item"><i class="fab fa-google"></i><span>Google</span></div>
+        </div>
+    </div>
+
+    <div class="detail-section">
+        <h2>Brand Identity</h2>
+        <div class="branding-grid">
+            <div class="brand-item">
+                <h4>Color Palette</h4>
+                <div class="color-row">
+                    <div class="swatch" style="background:var(--accent-cyan)"><span>#00D1FF</span></div>
+                    <div class="swatch" style="background:var(--accent-purple)"><span>#7F5BFF</span></div>
+                    <div class="swatch" style="background:var(--accent-pink)"><span>#FF8AE2</span></div>
+                    <div class="swatch" style="background:#05040a;"><span>#05040A</span></div>
+                </div>
+            </div>
+            <div class="brand-item">
+                <h4>Typography</h4>
+                <div class="type-preview">
+                    <p style="font-family:'Inter'; font-weight:800; font-size:20px; color:#fff; margin:0;">Inter Bold</p>
+                    <p style="font-family:'Anonymous Pro'; font-size:14px; color:var(--accent-cyan); margin:0;">Anonymous Pro Mono</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-section">
+        <h2>Visual Gallery</h2>
+        <div class="big-gallery">
+            <div class="gallery-card"><img src="images/image1.png" alt="Design detail 1"></div>
+            <div class="gallery-card"><img src="images/image2.png" alt="Design detail 2"></div>
+            <div class="gallery-card"><img src="images/image3.png" alt="Design detail 3"></div>
+            <div class="gallery-card"><img src="images/image4.png" alt="Design detail 4"></div>
+        </div>
+    </div>
+
+    <div class="detail-section">
+        <h2>Copywriting & Voice</h2>
+        <div class="writing-grid">
+            <div class="writing-card">
+                <div class="writing-tag">Hero Message</div>
+                <h4>"From idea to launch"</h4>
+                <p>This tells clients we handle the whole project from start to finish.</p>
+            </div>
+            <div class="writing-card">
+                <div class="writing-tag">Primary CTA</div>
+                <h4>"Start Project"</h4>
+                <p>Better than "Contact Us" because it sounds like we are ready to work.</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="contact" style="padding-top:80px;">
+        <h2 style="text-align:center; color:var(--accent-purple); margin-bottom:10px;">Start your project</h2>
+        <p style="text-align:center; margin-bottom:30px;">Send a brief or reach out directly.</p>
+
+        <div class="contact-grid">
+            <form class="contact-card">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Tell me about your project..." rows="4"></textarea>
+                <button class="btn primary" type="button">Send message</button>
+            </form>
+            <div class="contact-card">
+                <h4 style="color:var(--accent-cyan); margin-bottom:10px;">Direct Contact</h4>
+                <p style="font-family:'Anonymous Pro'; color:var(--accent-pink);">+964 750 536 1079</p>
+                <p>Erbil, Kurdistan</p>
+            </div>
+        </div>
+    </section>
+</div> 
+
+<footer>
+    <div class="footer-links" style="margin-bottom:20px;">
+        <a class="footer-pill" href="mailto:Zhinosalam188@gmail.com">Email Me</a>
+        <a class="footer-pill" href="tel:+9647505361079">Call Now</a>
+    </div>
+    <div style="color:var(--muted); font-size:12px; font-weight:300;">
+        © 2026 • Zhino Salam — UI/UX Design Engineer • Crafted in Erbil
+    </div>
+</footer>
+
+</body>
+</html>
